@@ -1,0 +1,2 @@
+webpackJsonp([3],{CSWx:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r={render:function(){var e=this.$createElement;return(this._self._c||e)("div",[this._v("这里是商城啊")])},staticRenderFns:[]};var a=n("VU/8")({name:"shop"},r,!1,function(e){n("yEg6")},"data-v-5c3d8a3e",null);t.default=a.exports},yEg6:function(e,t){}});
+//# sourceMappingURL=3.30cda8c9cbc64f0b7f5b.js.map
