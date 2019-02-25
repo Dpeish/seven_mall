@@ -41,9 +41,10 @@ const iconTypes = {
 
  */
 
-function notice(content = '', duration = 500, closable = false, type) {
+function notice(content = '', duration = 1.5, closable = false, type) {
   const iconType = iconTypes[type]
   let instance = getMessageInstance();
+
   instance.add({
     content: content,
     duration: duration,

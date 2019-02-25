@@ -1,8 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import MintUI from 'mint-ui' // mint-ui
-import 'mint-ui/lib/style.css'
 import App from './App'
 import router from './router'
 
@@ -18,13 +16,19 @@ import '@/icons'
 
 import Directives from '@/utils/Directives';
 
-Vue.use(MintUI)
+import components from '@/components/';
+//动态挂载组件库中的组件
+Object.keys(components).forEach((key) => {
+	var name = key.replace(/(\w)/, (v) => v.toUpperCase()) // 首字母大写
+	Vue.component(`o${name}`, components[key])
+});
+
 Vue.use(Directives)
 FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 
-Vue.prototype.$Alert = Alert;
+Vue.prototype.$toast = Alert;
 
 /* eslint-disable no-new */
 new Vue({

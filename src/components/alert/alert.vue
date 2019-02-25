@@ -1,7 +1,6 @@
 <template>
-    <div class="alert">
-      <transition-group name="top">
-      <div class="alert-main" v-for="item in notices" :key="item.name">
+    <transition-group name="top" tag="ul" class="alert">
+      <li class="alert-main" v-for="item in notices" :key="item.name">
         <div class="alert-content">
           <i class="iconfont" :class="item.type"></i>
           <span class="alert-content-info">{{ item.content }}</span>
@@ -11,9 +10,8 @@
             @click="handleClose(item.name)"
           ><i class="iconfont icon-close"></i></span>
         </div>
-      </div>
-       </transition-group>
-    </div>
+      </li>
+    </transition-group>
 </template>
 
 <script>
@@ -28,9 +26,6 @@ export default {
     return {
       notices: []
     }
-  },
-  computed: {
-    
   },
   methods: {
     add (notice) {
@@ -69,28 +64,11 @@ export default {
     position: fixed;
     z-index: 19920905;
     width: 100%;
-    top: 30px;
-    left: 0;
+    top: 50px;
     text-align: center;
-    /* pointer-events: none;  无法点击，幽灵模式 */ 
+    pointer-events: none;
   }
 
-  .is-top {
-    bottom: 0;
-    top: 30px;
-  }
-
-  .is-bottom {
-    top: 0;
-    bottom: 30px;
-  }
-
-  .is-middle {
-    top: 50%;
-    bottom: 0;
-  }
-
-  
   .alert-content {
     position: relative;
     display: inline-block;
@@ -99,6 +77,7 @@ export default {
     border-radius: 3px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
     margin-bottom: 8px;
+    pointer-events: all;
   }
 
   .close-icon {
@@ -154,16 +133,11 @@ export default {
     }
   }
 
-  .top-enter, .top-leave-to {
-    opacity: 0;
-    transform: translate3d(0, -100%, 0)
-  }
-  .top-leave, .top-enter-to {
-    opacity: 0;
-    transform: translate3d(0, 0, 0)
-  }
   .top-enter-active, .top-leave-active {
-    transition: opacity all .5s
+    transition: opacity .3s
+  }
+  .top-enter, .top-leave-active {
+    opacity: 0
   }
 </style>
 
