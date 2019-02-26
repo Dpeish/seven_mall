@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueAwesomeSwiper from 'vue-awesome-swiper'; // swiper
+import 'swiper/dist/css/swiper.css'
 
 import Alert from '@/components/alert/alert.js';
 
@@ -23,6 +25,7 @@ Object.keys(components).forEach((key) => {
 	Vue.component(`o${name}`, components[key])
 });
 
+Vue.use(VueAwesomeSwiper)
 Vue.use(Directives)
 FastClick.attach(document.body)
 

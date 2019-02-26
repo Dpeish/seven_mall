@@ -1,5 +1,7 @@
 import button from './button';
+import picker from './picker'
 
 export default {
-  button
+  button,
+  picker
 }

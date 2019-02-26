@@ -1,5 +1,5 @@
 <template>
-  <div>这里是我的页面</div>
+  <div class="mine">这里是我的页面</div>
 </template>
 
 <script>
@@ -10,4 +10,8 @@ export default {
 
 <style lang="scss" scoped>
 @import "src/styles/mixin.scss";
+.mine {
+  height: 50rem;
+  background: darkcyan;
+}
 </style>

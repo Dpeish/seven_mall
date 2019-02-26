@@ -72,6 +72,7 @@ export default {
 .footer {
   @include border-top(#eee);
   position: fixed;
+  z-index: 19920905;
   display: flex;
   bottom: 0;
   left: 0;
