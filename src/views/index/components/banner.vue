@@ -25,7 +25,11 @@ export default {
   data () {
     return {
       swiperOption: {
-        autoplay: 3000,
+        autoplay: {
+          delay: 3000,
+          // 用户操作swiper之后，是否禁止autoplay。默认为true：停止。
+          disableOnInteraction: false
+        },
         loop: true,
         pagination: {
           el: '.swiper-pagination'

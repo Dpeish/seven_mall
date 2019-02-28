@@ -109,6 +109,7 @@ export default {
   input {
     width: calc(100% - .5rem);
     line-height: .24rem;
+    font-size: .14rem;
   }
   .code-input {
     width: calc(100% - 1.4rem);

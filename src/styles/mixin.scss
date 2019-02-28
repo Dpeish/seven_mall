@@ -5,6 +5,7 @@
   text-overflow: ellipsis;
 }
 
+// title 分割线 ---title---
 @mixin border-cutting($color) {
   &:after {
     display: block;
@@ -18,6 +19,7 @@
   }
 }
 
+// 上下边框
 @mixin border-top-bottom($color) {
   position: relative;
   &:before {
@@ -55,7 +57,7 @@
 
 @mixin border-right($color) {
   position: relative;
-  &:after {
+  &:before {
     display: block;
     position: absolute;
     right: 0;
@@ -79,9 +81,10 @@
   }
 }
 
+// 可以定位的边框
 @mixin border-bottom-posi($color, $num) {
   position: relative;
-  &:after {
+  &:before {
     display: block;
     position: absolute;
     left: $num;
@@ -92,9 +95,22 @@
   }
 }
 
+@mixin border-top-posi($color, $num) {
+  position: relative;
+  &:before {
+    display: block;
+    position: absolute;
+    left: $num;
+    top: 0;
+    width: 100%;
+    border-top: 1px solid $color;
+    content: '';
+  }
+}
+
 @mixin border-left($color) {
   position: relative;
-  &:after {
+  &:before {
     display: block;
     position: absolute;
     left: 0;
@@ -124,6 +140,18 @@
       transform: scaleY(0.7);
     }
   }
+  .border-bottom-posi {
+    &::before {
+      -webkit-transform: scaleY(0.7);
+      transform: scaleY(0.7);
+    }
+  }
+  .border-top-posi {
+    &::before {
+      -webkit-transform: scaleY(0.7);
+      transform: scaleY(0.7);
+    }
+  }
   .border-top {
     &::after {
       -webkit-transform: scaleY(0.7);
@@ -131,7 +159,7 @@
     }
   }
   .border-right {
-    &::after {
+    &::before {
       -webkit-transform: scaleY(0.7);
       transform: scaleY(0.7);
     }
@@ -143,7 +171,7 @@
     }
   }
   .border-left {
-    &::after {
+    &::before {
       -webkit-transform: scaleY(0.7);
       transform: scaleY(0.7);
     }
@@ -163,6 +191,18 @@
       transform: scaleY(0.5);
     }
   }
+  .border-bottom-posi {
+    &::before {
+      -webkit-transform: scaleY(0.7);
+      transform: scaleY(0.7);
+    }
+  }
+  .border-top-posi {
+    &::before {
+      -webkit-transform: scaleY(0.7);
+      transform: scaleY(0.7);
+    }
+  }
   .border-top {
     &::after {
       -webkit-transform: scaleY(0.5);
@@ -170,7 +210,7 @@
     }
   }
   .border-right {
-    &::after {
+    &::before {
       -webkit-transform: scaleY(0.5);
       transform: scaleY(0.5);
     }
@@ -182,7 +222,7 @@
     }
   }
   .border-left {
-    &::after {
+    &::before {
       -webkit-transform: scaleY(0.5);
       transform: scaleY(0.5);
     }

@@ -10,7 +10,8 @@
             <p>{{item.title}}</p>
           </li>
         </ul>
-        <Cutting>热销商品</Cutting>
+        <Cutting>明星商品</Cutting>
+        <index-star-sell></index-star-sell>
         <index-hot-sell></index-hot-sell>
       </div>
     </div>
@@ -22,6 +23,7 @@ import BScroll from 'better-scroll';
 import indexBanner from './components/banner';
 import indexHeader from './components/header';
 import Cutting from '@/components/Cutting'; // 分割线
+import indexStarSell from './components/starSell';
 import indexHotSell from './components/hotSell';
 
 import banner1 from '@/assets/index/banner1.png';
@@ -34,6 +36,7 @@ export default {
     indexBanner,
     indexHeader,
     Cutting,
+    indexStarSell,
     indexHotSell
   },
   data () {
@@ -52,16 +55,16 @@ export default {
       ],
       speedyList: [
         {
-          'iconClass': 'icon-tags',
+          'iconClass': 'icon-sale',
           'title': '促销活动'
         }, {
-          'iconClass': 'icon-bag',
+          'iconClass': 'icon-bags',
           'title': '常订商品'
         }, {
           'iconClass': 'icon-fav',
           'title': '我的收藏'
         }, {
-          'iconClass': 'icon-brand',
+          'iconClass': 'icon-jifen',
           'title': '我的积分'
         }
       ]
@@ -74,7 +77,6 @@ export default {
           click: true,
           probeType: 3
         });
-        console.log(this.scroll)
       } else {
         this.scroll.refresh();
       };
@@ -96,7 +98,7 @@ export default {
   z-index: 1;
   top: .44rem;
   left: 0;
-  bottom: .58rem;
+  bottom: .5rem;
   right: 0;
   .warp {
     height: auto;
@@ -128,11 +130,11 @@ export default {
   }
 }
 
-.icon-tags {
+.icon-sale {
   background: #67c56e;
 }
 
-.icon-bag {
+.icon-bags {
   background: #ffd043;
 }
 
@@ -140,7 +142,7 @@ export default {
   background: #fb6672;
 }
 
-.icon-brand {
+.icon-jifen {
   background: #a59bec;
 }
 

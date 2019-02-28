@@ -18,6 +18,12 @@ import '@/icons'
 
 import Directives from '@/utils/Directives';
 
+import filters from '@/utils/filters.js';
+// 全局挂载filters
+Object.keys(filters).forEach((key) => {
+  Vue.filter(key, filters[key]);
+})
+
 import components from '@/components/';
 //动态挂载组件库中的组件
 Object.keys(components).forEach((key) => {

@@ -105,7 +105,9 @@ export default {
   padding: 0 .15rem;
   input {
     width: calc(100% - .5rem);
+    height: .24rem;
     line-height: .24rem;
+    font-size: .14rem;
   }
   .code-input {
     width: calc(100% - 1.4rem);
@@ -139,6 +141,7 @@ export default {
     vertical-align: -0.05rem;
     border-radius: .18rem;
     border: 1px solid #b2b2b2;
+    font-size: .14rem;
   }
   input:checked {
     border: none;

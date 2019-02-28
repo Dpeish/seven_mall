@@ -1,13 +1,12 @@
 <template>
-  <div class="hot">
-    <div class="hot-title">热销商品</div>
+  <div class="star">
     <ul class="content clearfix">
       <li v-for="(item, index) in goodsList" :key="index">
         <img :src="item.goodsImg" alt="" class="goods-img">
         <div class="goods-content">
           <p class="goods-info">{{ item.info }}</p>
-          <p class="goods-weight">规格：{{ item.weight }}</p>
-          <p class="goods-price">{{ item.price | formatPrice }}<span class="goods-unit"> /{{ item.unit }}</span></p>
+          <p class="goods-weight">{{ item.weight }}</p>
+          <p class="goods-price">{{ item.price | formatPrice }}</p>
         </div>
         <div class="goods-add">
           <span class="iconfont icon-add"></span>
@@ -20,7 +19,7 @@
 <script>
 import goods from '@/assets/index/goods.jpg'
 export default {
-  name: 'hotsell',
+  name: 'starsell',
   data () {
     return {
       goods,
@@ -28,45 +27,39 @@ export default {
         {
           id: '001',
           goodsImg: goods,
-          info: '茅台镇洞藏老酒53度酱香型白酒低价批发坛装十五年原浆纯粮食酒',
+          info: '陶华碧老干妈香辣脆油辣椒210g瓶',
           weight: '210g',
-          price: 7.5,
-          unit: '件'
+          price: 7.5
         }, {
           id: '002',
           goodsImg: goods,
           info: '怡泉+C柠檬味汽水500ml*12饮料',
           weight: '500ml',
-          price: 3.1,
-          unit: '件'
+          price: 3.1
         }, {
           id: '003',
           goodsImg: goods,
           info: '椰树牌椰子汁250ml*24',
           weight: '250ml',
-          price: 3.1,
-          unit: '箱'
+          price: 3.1
         }, {
           id: '004',
           goodsImg: goods,
           info: '陶华碧老干妈香辣脆油辣椒210g瓶',
           weight: '210g',
-          price: 7.5,
-          unit: '箱'
+          price: 7.5
         }, {
           id: '005',
           goodsImg: goods,
           info: '怡泉+C柠檬味汽水500ml*12饮料',
           weight: '500ml',
-          price: 3.1,
-          unit: '件'
+          price: 3.1
         }, {
           id: '006',
           goodsImg: goods,
           info: '椰树牌椰子汁250ml*24',
           weight: '250ml',
-          price: 3.1,
-          unit: '箱'
+          price: 3.1
         }
       ]
     }
@@ -77,30 +70,22 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/mixin.scss';
 @import '@/styles/varibles.scss';
-.hot {
-  overflow: hidden;
+.star {
   width: 100%;
-}
-.hot-title {
-  padding: .11rem .15rem;
-  background: #fff;
-  font-size: .15rem;
-  color: #383838;
 }
 .content {
   margin: 0 auto;
   width: 100%;
   margin-bottom: .1rem;
   li {
-    position: relative;
-    padding: .11rem .15rem; 
+    float: left;
+    width: 33.333%;
+    padding: .1rem;
     background: #fff;
-    display: flex;
-    @include border-top-posi(#f5f5f5, .15rem);
+    @include border-top(#f5f5f5);
+    @include border-right(#f5f5f5);
     .goods-img {
-      width: .9rem;
-      height: .9rem;
-      margin-right: .1rem;
+      width: 100%;
     }
     .goods-add {
       position: absolute;
@@ -116,28 +101,26 @@ export default {
       }
     }
     .goods-content {
-      flex: 1;
+      margin-top: .12rem;
       .goods-info {
-        overflow: hidden;
-        height: .42rem;
+        height: .3rem;
+        line-height: 1.2;
         margin-bottom: .1rem;
-        color: #383838;
-        font-size: .14rem;
+        overflow: hidden;
+        color: #8f8f94;
+        font-size: .12rem;
       }
       .goods-weight {
         overflow: hidden;
-        height: .21rem;
-        font-size: .13rem;
+        height: .15rem;
+        font-size: .12rem;
         color: #8f8f94;
       }
       .goods-price {
         overflow: hidden;
-        height: .21rem;
+        height: .15rem;
         font-size: .13rem;
         color: $pinkText;
-      }
-      .goods-unit {
-        color: #8f8f94;
       }
     }
   }

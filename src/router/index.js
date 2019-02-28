@@ -16,8 +16,14 @@ const Agreement = r => require.ensure([], () => r(require('@/views/Login/agreeme
 const Shop = r => require.ensure([], () => r(require('@/views/shop/index.vue')), 'Shop')
 // 购物车
 const Cart = r => require.ensure([], () => r(require('@/views/cart/index.vue')), 'Cart')
-// 我的页面
-const Mine = r => require.ensure([], () => r(require('@/views/mine/index.vue')), 'Mine')
+// 我的页面主页面
+const MineParent = r => require.ensure([], () => r(require('@/views/mine/index.vue')), 'MineParent')
+// 我的
+const Mine = r => require.ensure([], () => r(require('@/views/mine/children/mine.vue')), 'Mine')
+// 我的页面-我的账号信息
+const MineProfiles = r => require.ensure([], () => r (require('@/views/mine/children/profiles.vue')) , 'MineProfiles')
+// 我的页面 二维码
+const MineQrcode = r => require.ensure([], () => r (require('@/views/mine/children/qrcode.vue')) , 'MineQrcode')
 
 Vue.use(Router)
 
@@ -30,19 +36,56 @@ export default new Router({
         {
           path: '/',
           name: 'index',
+          meta: {
+            id: 0,
+            navShow: true // 导航是否显示
+          },
           component: Index
         }, {
           path: '/shop',
           name: 'shop',
+          meta: {
+            id: 1,
+            navShow: true // 导航是否显示
+          },
           component: Shop
         }, {
           path: '/cart',
           name: 'cart',
+          meta: {
+            id: 2,
+            navShow: true // 导航是否显示
+          },
           component: Cart
         }, {
-          path: '/mine',
-          name: 'mine',
-          component: Mine
+          path: '/mineParent',
+          meta: {
+            id: 3,
+            navShow: true // 导航是否显示
+          },
+          redirect: '/mine',
+          component: MineParent,
+          children: [
+            {
+              // 我的页面 - 我的
+              path: '/mine',
+              name: 'mine',
+              component: Mine,
+              meta: {
+                navShow: true
+              }
+            }, {
+              // 我的页面 - 我的
+              path: '/mine/profiles',
+              name: 'profiles',
+              component: MineProfiles
+            }, {
+              // 我的   二维码
+              path: '/mine/qrcode',
+              name: 'qrcode',
+              component: MineQrcode
+            }
+          ]
         }
       ]
     }, {

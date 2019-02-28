@@ -1,5 +1,8 @@
 <template>
-  <div class="mine">这里是我的页面</div>
+  <div class="mine">
+    <!-- 子页面入口 -->
+    <router-view/>
+  </div>
 </template>
 
 <script>
@@ -9,9 +12,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "src/styles/mixin.scss";
-.mine {
-  height: 50rem;
-  background: darkcyan;
-}
+
 </style>

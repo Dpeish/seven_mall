@@ -1,7 +1,9 @@
 <template>
   <div>
-    <router-view/>
-    <ul class="footer">
+    <transition :name="tarnsitionName">
+      <router-view/>
+    </transition>
+    <ul class="footer" v-show="navShow">
       <li 
         v-for="(item, index) of navList" 
         :key="index"
@@ -22,6 +24,7 @@ export default {
   name: 'layout',
   data() {
     return {
+      tarnsitionName: 'vux-pop-in', // 路由切换动画
       navList: [
         {
           title: '首页',
@@ -50,6 +53,22 @@ export default {
         }
       ],
       isActiveName: 'index'
+    }
+  },
+  watch: {
+    $route (to, form) {
+      // 监听路由动向。设置路由切换动画 meta中的id比较
+      if (to.meta.id > form.meta.id) {
+        this.tarnsitionName = 'vux-pop-in';
+      } else {
+        this.tarnsitionName = 'vux-pop-out';
+      }
+    }
+  },
+  computed: {
+    navShow() {
+      // 检查是否显示nav导航
+      return this.$route.meta.navShow;
     }
   },
   methods: {
@@ -92,6 +111,40 @@ export default {
 }
 .active {
   color: $pinkText!important;
+}
+
+.vux-pop-out-enter-active,
+.vux-pop-out-leave-active,
+.vux-pop-in-enter-active,
+.vux-pop-in-leave-active {
+  will-change: transform;
+  transition: all 250ms;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  position: absolute;
+  backface-visibility: hidden;
+  perspective: 1000;
+}
+
+.vux-pop-out-enter {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.vux-pop-out-leave-active {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+.vux-pop-in-enter {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+.vux-pop-in-leave-active {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
 }
 </style>
 
