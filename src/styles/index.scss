@@ -33,3 +33,15 @@ html {
     height: 0;
   }
 }
+
+.text-center {
+  text-align: center;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  -webkit-appearance: none;
+  opacity: 0 !important;
+}

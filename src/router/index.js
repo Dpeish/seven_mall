@@ -24,6 +24,8 @@ const Mine = r => require.ensure([], () => r(require('@/views/mine/children/mine
 const MineProfiles = r => require.ensure([], () => r (require('@/views/mine/children/profiles.vue')) , 'MineProfiles')
 // 我的页面 二维码
 const MineQrcode = r => require.ensure([], () => r (require('@/views/mine/children/qrcode.vue')) , 'MineQrcode')
+// 我的页面 全部订单
+const MineOrder = r => require.ensure([], () => r (require('@/views/mine/children/orderManag.vue')) , 'MineOrder')
 
 Vue.use(Router)
 
@@ -72,6 +74,7 @@ export default new Router({
               name: 'mine',
               component: Mine,
               meta: {
+                id: 4,
                 navShow: true
               }
             }, {
@@ -84,6 +87,11 @@ export default new Router({
               path: '/mine/qrcode',
               name: 'qrcode',
               component: MineQrcode
+            }, {
+              // 我的 全部订单
+              path: '/mine/order',
+              name: 'orderManag',
+              component: MineOrder
             }
           ]
         }

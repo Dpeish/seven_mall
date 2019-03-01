@@ -121,6 +121,23 @@
   }
 }
 
+// 左右自定义距离
+@mixin border-divider($color, $r, $l) {
+  position: relative;
+  &:after {
+    position: absolute;
+    right: $r;
+    bottom: 0;
+    left: $l;
+    height: 1px;
+    z-index: 3;
+    background-color: $color;
+    transform-origin: 50% 100%;
+    content: '';
+  }
+}
+
+
 @mixin border-none() {
   &:after {
     display: none;
@@ -176,6 +193,12 @@
       transform: scaleY(0.7);
     }
   }
+  .border-divider {
+    &::after {
+      -webkit-transform: scaleY(0.7);
+      transform: scaleY(0.7);
+    }
+  }
 }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
@@ -193,14 +216,14 @@
   }
   .border-bottom-posi {
     &::before {
-      -webkit-transform: scaleY(0.7);
-      transform: scaleY(0.7);
+      -webkit-transform: scaleY(0.5);
+      transform: scaleY(0.5);
     }
   }
   .border-top-posi {
     &::before {
-      -webkit-transform: scaleY(0.7);
-      transform: scaleY(0.7);
+      -webkit-transform: scaleY(0.5);
+      transform: scaleY(0.5);
     }
   }
   .border-top {
@@ -223,6 +246,12 @@
   }
   .border-left {
     &::before {
+      -webkit-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+    }
+  }
+  .border-divider {
+    &::after {
       -webkit-transform: scaleY(0.5);
       transform: scaleY(0.5);
     }

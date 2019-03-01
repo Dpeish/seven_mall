@@ -118,13 +118,14 @@ export default {
 .vux-pop-in-enter-active,
 .vux-pop-in-leave-active {
   will-change: transform;
-  transition: all 250ms;
+  transition: all 300ms;
   width: 100%;
   height: 100%;
   top: 0;
   position: absolute;
   backface-visibility: hidden;
   perspective: 1000;
+  transform: translateZ(0);
 }
 
 .vux-pop-out-enter {

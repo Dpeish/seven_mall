@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="order-enter">
-      <li class="title">
+      <li class="title" @click="enterAllOrder">
         全部订单
         <i class="iconfont icon-right-arrow arrow"></i>
       </li>
@@ -39,6 +39,11 @@ export default {
           link: '/'
         }
       ]
+    }
+  },
+  methods: {
+    enterAllOrder () {
+      this.$router.push('/mine/order')
     }
   }
 }
