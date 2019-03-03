@@ -105,6 +105,7 @@ export default {
   name: 'orderManag',
   data () {
     return {
+      scroll: '', // 滚动对象
       tabList: [
         {
           title: '全部'
@@ -131,6 +132,7 @@ export default {
       this.$router.go(-1);
     },
     tabAction(index) {
+      
       this.tabIndex = index;
     },
     _initScroll () {
@@ -190,6 +192,11 @@ export default {
     this.$nextTick(()=>{
       this._initScroll();
     });
+    
+    if (this.$route.params.tab) {
+      const activeTab = this.$route.params.tab;
+      this.tabIndex = activeTab;
+    }
     this.filterOrder();
   }
 }

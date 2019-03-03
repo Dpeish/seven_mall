@@ -1,10 +1,16 @@
 <template>
-  <div>这里是商城啊</div>
+  <div>
+    <index-header></index-header>
+  </div>
 </template>
 
 <script>
+import indexHeader from '@/views/index/components/header';
 export default {
-  name: 'shop'
+  name: 'shop',
+  components: {
+    indexHeader
+  }
 }
 </script>
 

@@ -26,6 +26,10 @@ const MineProfiles = r => require.ensure([], () => r (require('@/views/mine/chil
 const MineQrcode = r => require.ensure([], () => r (require('@/views/mine/children/qrcode.vue')) , 'MineQrcode')
 // 我的页面 全部订单
 const MineOrder = r => require.ensure([], () => r (require('@/views/mine/children/orderManag.vue')) , 'MineOrder')
+// 我的页面 我的积分
+const MineIntegral = r => require.ensure([], () => r (require('@/views/mine/children/integral.vue')) , 'MineIntegral')
+// 我的页面 我的优惠券
+const MineCoupon = r => require.ensure([], () => r (require('@/views/mine/children/coupon.vue')) , 'MineCoupon')
 
 Vue.use(Router)
 
@@ -92,6 +96,16 @@ export default new Router({
               path: '/mine/order',
               name: 'orderManag',
               component: MineOrder
+            }, {
+              // 我的 我的积分
+              path: '/mine/integral',
+              name: 'integral',
+              component: MineIntegral
+            }, {
+              // 我的 我的积分
+              path: '/mine/coupon',
+              name: 'coupon',
+              component: MineCoupon
             }
           ]
         }

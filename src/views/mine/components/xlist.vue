@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="x-list clearfix">
-      <li v-for="(item, index) in xlistOne" :key="index">
+      <li v-for="(item, index) in xlistOne" :key="index" @click="goPage(item.link)">
         <span class="iconfont icons" :class="item.iconName"></span>
         <p>{{ item.title }}</p>
       </li>
@@ -26,11 +26,11 @@ export default {
         {
           iconName: 'icon-jifen',
           title: '积分',
-          link: '/'
+          link: '/mine/integral'
         }, {
           iconName: 'icon-coupon',
           title: '优惠券',
-          link: '/'
+          link: '/mine/coupon'
         }, {
           iconName: 'icon-evaluate',
           title: '评价',
@@ -67,6 +67,11 @@ export default {
           link: '/'
         }
       ]
+    }
+  },
+  methods: {
+    goPage(link) {
+      this.$router.push(link)
     }
   }
 }

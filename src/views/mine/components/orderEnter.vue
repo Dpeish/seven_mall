@@ -6,9 +6,10 @@
         <i class="iconfont icon-right-arrow arrow"></i>
       </li>
       <li class="func-item">
-        <div v-for="(item, index) in orderFuncList" :key="index">
+        <div v-for="(item, index) in orderFuncList" :key="index" @click="enterOrderTab(item.type)">
           <span class="iconfont" :class="item.iconName"></span>
           <p>{{ item.title }}</p>
+          <i>{{ item.number | badgeNum}}</i>
         </div>
       </li>
     </ul>
@@ -23,28 +24,92 @@ export default {
       orderFuncList: [
         {
           iconName: 'icon-pay',
-          title: '代付款',
-          link: '/'
+          title: '待付款',
+          type: 1
         }, {
           iconName: 'icon-che1',
           title: '待发货',
-          link: '/'
+          type: 2
         }, {
           iconName: 'icon-dsh',
           title: '待收货',
-          link: '/'
+          type: 3
         }, {
           iconName: 'icon-daipingjia',
           title: '待评价',
-          link: '/'
+          type: 4
         }
+      ],
+      badge: [
+        {
+          type: 1,
+          number: 5
+        }, {
+          type: 2,
+          number: 15
+        }, {
+          type: 3,
+          number: 7
+        }, {
+          type: 4,
+          number: 0
+        }  
       ]
+    }
+  },
+  filters: {
+    badgeNum (val) {
+      return val > 0 ? val : '';
     }
   },
   methods: {
     enterAllOrder () {
-      this.$router.push('/mine/order')
+      // query相当于get请求，页面跳转的时候，可以在地址栏看到请求参数，而params相当于post请求，参数不会再地址栏中显示
+      
+      // url 传参
+      // this.$router.push({
+      //   path:'/xxx'
+      //   query:{
+      //     id:id
+      //   }
+      // })
+      // 接收参数:
+      // this.$route.query.id  注意:传参是this.$router,接收参数是this.$route,这里千万要看清了！！！
+
+
+
+      // params方式传参
+      // 注意:params传参，push里面只能是 name:'xxxx',不能是path:'/xxx',因为params只能用name来引入路由，如果这里写成了path，接收参数页面会是undefined！！！
+      this.$router.push({
+        name: 'orderManag',
+        params: {
+          tab: 0
+        }
+      })
+    },
+    enterOrderTab(type) {
+      this.$router.push({
+        name: 'orderManag',
+        params: {
+          tab: type
+        }
+      })
+    },
+    initMenu() {
+      let _self = this;
+      // this.badge 内的数据模拟后台接收的数据。 number为通知数量. 添加到本地this.orderFuncList数组对象中，用来遍历菜单和显示badge图标
+      for (let i = 0; i < _self.orderFuncList.length; i++) {
+        for (let j = 0; j < _self.badge.length; j++) {
+          if (_self.orderFuncList[i].type === _self.badge[j].type) {
+            // 给数组对象添加属性时要使用Vue.set
+            _self.$set(_self.orderFuncList[i], 'number', _self.badge[j].number);
+          }
+        }
+      }
     }
+  },
+  mounted() {
+    this.initMenu();
   }
 }
 </script>

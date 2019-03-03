@@ -102,7 +102,7 @@ export default {
     login () {
       this.$validator.validate().then((result) => {
         if(result) {
-          alert('验证成功')
+          this.$router.replace('/')
         }
       })
     }
