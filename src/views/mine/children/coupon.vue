@@ -26,7 +26,7 @@
         </li>
       </ul>
     </div>
-    <x-rate :porpScore="3.5" @getStar="getStar"></x-rate>
+    <x-rate :porpScore="3.7" @getStar="getStar"></x-rate>
     <x-rate :porpScore="2.5" disabled></x-rate>
   </div>
 </template>
@@ -71,7 +71,7 @@ export default {
       this.$router.go(-1);
     },
     getStar(val) {
-      console.log(val)
+      // console.log(val)
     }
   }
 }
