@@ -111,7 +111,7 @@ export default {
   overflow: hidden;
   position: absolute;
   z-index: 1;
-  top: 1.89rem;
+  top: 1.68rem;
   left: 0;
   bottom: 0;
   right: 0;

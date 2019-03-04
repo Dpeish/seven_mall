@@ -5,13 +5,16 @@
   text-overflow: ellipsis;
 }
 
+
+
 // 优惠券圆角
 @mixin coupon-circle {
   position: relative;
   &:before {
     position: absolute;
-    left: -0.06rem;
-    bottom: -0.06rem;
+    z-index: 2;
+    left: -0.08rem;
+    bottom: -0.08rem;
     width: .16rem;
     height: .16rem;
     border-radius: .16rem;
@@ -20,8 +23,9 @@
   }
   &:after {
     position: absolute;
-    right: -0.06rem;
-    bottom: -0.06rem;
+    z-index: 2;
+    right: -0.08rem;
+    bottom: -0.08rem;
     width: .16rem;
     height: .16rem;
     border-radius: .16rem;
@@ -40,6 +44,20 @@
     top: 50%;
     right: 10%;
     border-top: 1px solid $color;
+    content: '';
+  }
+}
+
+// 上虚线
+@mixin border-top-dotted($color) {
+  position: relative;
+  &:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border-top: 1px dotted $color;
     content: '';
   }
 }
@@ -194,6 +212,12 @@
       transform: scaleY(0.7);
     }
   }
+  .border-top-dotted {
+    &::after {
+      -webkit-transform: scaleY(0.7);
+      transform: scaleY(0.7);
+    }
+  }
   .border-top {
     &::after {
       -webkit-transform: scaleY(0.7);
@@ -247,6 +271,12 @@
   }
   .border-top-posi {
     &::before {
+      -webkit-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+    }
+  }
+  .border-top-dotted {
+    &::after {
       -webkit-transform: scaleY(0.5);
       transform: scaleY(0.5);
     }
