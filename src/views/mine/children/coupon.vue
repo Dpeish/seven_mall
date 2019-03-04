@@ -26,13 +26,19 @@
         </li>
       </ul>
     </div>
+    <x-rate :porpScore="3.5" @getStar="getStar"></x-rate>
+    <x-rate :porpScore="2.5" disabled></x-rate>
   </div>
 </template>
 
 <script>
 import notImg from '@/assets/common/notimg.png';
+import xRate from '@/components/Rate';
 export default {
   name: 'coupon',
+  components: {
+    xRate
+  },
   data () {
     return {
       notImg,
@@ -63,6 +69,9 @@ export default {
   methods: {
     back () {
       this.$router.go(-1);
+    },
+    getStar(val) {
+      console.log(val)
     }
   }
 }
