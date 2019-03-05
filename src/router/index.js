@@ -30,6 +30,14 @@ const MineOrder = r => require.ensure([], () => r (require('@/views/mine/childre
 const MineIntegral = r => require.ensure([], () => r (require('@/views/mine/children/integral.vue')) , 'MineIntegral')
 // 我的页面 我的优惠券
 const MineCoupon = r => require.ensure([], () => r (require('@/views/mine/children/coupon.vue')) , 'MineCoupon')
+// 我的页面 订单评价
+const MineComments = r => require.ensure([], () => r (require('@/views/mine/children/comments.vue')) , 'MineComments')
+// 我的页面 我的收藏
+const MineCollect = r => require.ensure([], () => r (require('@/views/mine/children/collect.vue')) , 'MineCollect')
+// 我的页面 收货地址
+const MineAddress = r => require.ensure([], () => r (require('@/views/mine/children/address.vue')) , 'MineAddress')
+// 我的页面 新增收货地址
+const MineAddressAdd = r => require.ensure([], () => r (require('@/views/mine/children/address-add.vue')) , 'MineAddressAdd')
 
 Vue.use(Router)
 
@@ -102,10 +110,30 @@ export default new Router({
               name: 'integral',
               component: MineIntegral
             }, {
-              // 我的 我的积分
+              // 我的 我的优惠券
               path: '/mine/coupon',
               name: 'coupon',
               component: MineCoupon
+            }, {
+              // 我的 订单评价
+              path: '/mine/comments',
+              name: 'comments',
+              component: MineComments
+            }, {
+              // 我的 我的收藏 address
+              path: '/mine/collect',
+              name: 'collect',
+              component: MineCollect
+            }, {
+              // 我的 收货地址 MineAddressAdd
+              path: '/mine/address',
+              name: 'address',
+              component: MineAddress
+            }, {
+              // 我的 新增收货地址
+              path: '/mine/address-add',
+              name: 'addressAdd',
+              component: MineAddressAdd
             }
           ]
         }

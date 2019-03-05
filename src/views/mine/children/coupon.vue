@@ -26,19 +26,13 @@
         </li>
       </ul>
     </div>
-    <x-rate :porpScore="3.7" @getStar="getStar"></x-rate>
-    <x-rate :porpScore="2.5" disabled></x-rate>
   </div>
 </template>
 
 <script>
 import notImg from '@/assets/common/notimg.png';
-import xRate from '@/components/Rate';
 export default {
   name: 'coupon',
-  components: {
-    xRate
-  },
   data () {
     return {
       notImg,

@@ -28,7 +28,7 @@ import components from '@/components/';
 //动态挂载组件库中的组件
 Object.keys(components).forEach((key) => {
 	var name = key.replace(/(\w)/, (v) => v.toUpperCase()) // 首字母大写
-	Vue.component(`o${name}`, components[key])
+	Vue.component(`x${name}`, components[key])
 });
 
 Vue.use(VueAwesomeSwiper)

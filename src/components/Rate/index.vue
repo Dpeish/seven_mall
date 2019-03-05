@@ -1,5 +1,5 @@
 <template>
-  <div class="rateing">
+  <div class="rating">
     <span 
       v-for="(item, index) in Classes" 
       :key="index"
@@ -11,17 +11,15 @@
 </template>
 
 <script>
-const LENGTH = 5;
-const STAR_ON = 'icon-full'; // 全星
-const STAR_HALF = 'icon-half'; // 半星
-const STAR_OFF = 'icon-start'; // 空星
 export default {
   name: 'rate',
   props: {
-    porpScore: {
+    // 外部传入的分值
+    extScore: {
       type: Number,
       default: 0
     },
+    // 是否禁用 用来显示分数
     disabled: {
       type: Boolean,
       default: false
@@ -34,22 +32,30 @@ export default {
   },
   computed: {
     Classes () {
+      const Full = 'icon-full'; // 全星
+      const Half = 'icon-half'; // 半星
+      const Star = 'icon-star'; // 空星
       // 结果返回一个数组 遍历输出星星
       let result = [];
       // 计算星星的数量
       let score = Math.floor(this.score * 2) / 2;
-      console.log(score)
-      let hasDecimal = score % 1 !== 0; // 非整数星星判断
-      let integer = Math.floor(score); // 整数星星判断
-      for (let i = 0; i < integer; i++) { // 整数星星使用on
-        result.push(STAR_ON);// 一个整数星星就push一个STAR_ON到数组
+      // 非整数星星判断
+      let decimal = score % 1 !== 0; 
+      // 整数星星判断
+      let integer = Math.floor(score);
+      // 全星
+      for (let i = 0; i < integer; i++) {
+        result.push(Full);
       }
-      if (hasDecimal) { // 非整数星星使用half
-        result.push(STAR_HALF);// 类似
+      // 半星
+      if (decimal) {
+        result.push(Half);
       }
-      while (result.length < LENGTH) { // 余下的用无星星补全,使用off
-        result.push(STAR_OFF);// 类似
+      // 循环空星
+      while (result.length < 5) { 
+        result.push(Star);
       }
+      // 返回类名集合
       return result;
     }
   },
@@ -61,13 +67,19 @@ export default {
     }
   },
   mounted () {
-    this.score = this.porpScore;
+    this.score = this.extScore;
   }
 }
 </script>
 
 <style scoped>
-
+.rating {
+  color: #ffa037 !important;
+  
+}
+.rating span {
+  margin: 0 0.02rem;
+}
 </style>
 
 

@@ -34,15 +34,15 @@ export default {
         }, {
           iconName: 'icon-evaluate',
           title: '评价',
-          link: '/'
+          link: '/mine/comments'
         }, {
           iconName: 'icon-fav',
           title: '收藏',
-          link: '/'
+          link: '/mine/collect'
         }, {
           iconName: 'icon-dizhi',
           title: '收获地址',
-          link: '/'
+          link: '/mine/address'
         }, {
           iconName: 'icon-share',
           title: '分享',
