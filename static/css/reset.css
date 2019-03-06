@@ -71,6 +71,12 @@ p {
     word-break:break-all;
 }
 
+textarea {
+  border: none;
+  outline: none;
+  resize:none
+}
+
 
 li {
   list-style: none;

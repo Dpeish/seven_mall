@@ -80,6 +80,7 @@ export default {
   background: #fcfcfc;
   font-size: .18rem;
   text-align: center;
+  @include border-bottom(#eee);
   span {
     position: absolute;
     left: 0;

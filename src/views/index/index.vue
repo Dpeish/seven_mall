@@ -5,7 +5,7 @@
       <div class="wrap">
         <index-banner :list='list'></index-banner>
         <ul class="speedy">
-          <li v-for="(item, index) in speedyList" :key="index">
+          <li v-for="(item, index) in speedyList" :key="index" @click="enterPage(item.link)">
             <span class="iconfont icon-item" :class="item.iconClass"></span>
             <p>{{item.title}}</p>
           </li>
@@ -55,17 +55,21 @@ export default {
       ],
       speedyList: [
         {
-          'iconClass': 'icon-sale',
-          'title': '促销活动'
+          iconClass: 'icon-sale',
+          title: '促销活动',
+          link: '/'
         }, {
-          'iconClass': 'icon-bags',
-          'title': '常订商品'
+          iconClass: 'icon-bags',
+          title: '常订商品',
+          link: '/'
         }, {
-          'iconClass': 'icon-fav',
-          'title': '我的收藏'
+          iconClass: 'icon-fav',
+          title: '我的收藏',
+          link: '/mine/collect'
         }, {
-          'iconClass': 'icon-jifen',
-          'title': '我的积分'
+          iconClass: 'icon-jifen',
+          title: '我的积分',
+          link: '/mine/integral'
         }
       ]
     }
@@ -80,6 +84,9 @@ export default {
       } else {
         this.scroll.refresh();
       };
+    },
+    enterPage (link) {
+      this.$router.push(link);
     }
   },
   mounted () {

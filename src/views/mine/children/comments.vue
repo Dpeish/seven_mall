@@ -6,24 +6,24 @@
     </div>
     <div class="wrap">
       <div class="title">{{nowNum}}条评价</div>
+      <ul class="item-view" v-for="(item, index) in commentsList" :key="index">
+        <li class="item-view-cell">
+          <img class="head-img" :src="notImg" alt="">
+          <p class="store-name">{{ item.storeName }} <i class="iconfont icon-right-arrow"></i></p>
+        </li>
+        <li class="item-view-cell">
+          <div class="order-info text-hidden">
+            <p>单号：{{ item.orderNumber }}</p>
+            <p>时间：{{ item.dec }}</p>
+          </div>
+        </li>
+        <li class="item-view-cell">
+          <div class="order-info text-hidden">
+            <x-rate :extScore="item.score" disabled></x-rate>
+          </div>
+        </li>
+      </ul>
     </div>
-    <ul class="item-view" v-for="(item, index) in commentsList" :key="index">
-      <li class="item-view-cell">
-        <img class="head-img" :src="notImg" alt="">
-        <p class="store-name">{{ item.storeName }} <i class="iconfont icon-right-arrow"></i></p>
-      </li>
-      <li class="item-view-cell">
-        <div class="order-info text-hidden">
-          <p>单号：{{ item.orderNumber }}</p>
-          <p>时间：{{ item.dec }}</p>
-        </div>
-      </li>
-      <li class="item-view-cell">
-        <div class="order-info text-hidden">
-          <x-rate :extScore="item.score" disabled></x-rate>
-        </div>
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -76,6 +76,7 @@ export default {
   background: #fcfcfc;
   font-size: .18rem;
   text-align: center;
+  @include border-bottom(#eee);
   span {
     position: absolute;
     left: 0;

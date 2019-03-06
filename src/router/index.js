@@ -12,8 +12,10 @@ const Register = r => require.ensure([], () => r(require('@/views/Login/register
 // 用户使用协议
 const Agreement = r => require.ensure([], () => r(require('@/views/Login/agreement.vue')), 'Agreement')
 
+// 商品页面主页面
+const ShopParent = r => require.ensure([], () => r(require('@/views/shop/index.vue')), 'ShopParent')
 // 商品
-const Shop = r => require.ensure([], () => r(require('@/views/shop/index.vue')), 'Shop')
+const Shop = r => require.ensure([], () => r(require('@/views/shop/children/shop.vue')), 'Shop')
 // 购物车
 const Cart = r => require.ensure([], () => r(require('@/views/cart/index.vue')), 'Cart')
 // 我的页面主页面
@@ -38,6 +40,11 @@ const MineCollect = r => require.ensure([], () => r (require('@/views/mine/child
 const MineAddress = r => require.ensure([], () => r (require('@/views/mine/children/address.vue')) , 'MineAddress')
 // 我的页面 新增收货地址
 const MineAddressAdd = r => require.ensure([], () => r (require('@/views/mine/children/address-add.vue')) , 'MineAddressAdd')
+// 我的页面 使用反馈
+const MineFeedback = r => require.ensure([], () => r (require('@/views/mine/children/feedback.vue')) , 'MineFeedback')
+// 我的页面 系统设置
+const MineSetting = r => require.ensure([], () => r (require('@/views/mine/children/setting.vue')) , 'MineSetting')
+
 
 Vue.use(Router)
 
@@ -56,13 +63,24 @@ export default new Router({
           },
           component: Index
         }, {
-          path: '/shop',
-          name: 'shop',
+          path: '/ShopParent',
           meta: {
-            id: 1,
             navShow: true // 导航是否显示
           },
-          component: Shop
+          redirect: '/shop',
+          component: ShopParent,
+          children: [
+            {
+              // 商铺
+              path: '/shop',
+              name: 'shop',
+              component: Shop,
+              meta: {
+                id: 1,
+                navShow: true
+              }
+            }
+          ]
         }, {
           path: '/cart',
           name: 'cart',
@@ -120,12 +138,12 @@ export default new Router({
               name: 'comments',
               component: MineComments
             }, {
-              // 我的 我的收藏 address
+              // 我的 我的收藏
               path: '/mine/collect',
               name: 'collect',
               component: MineCollect
             }, {
-              // 我的 收货地址 MineAddressAdd
+              // 我的 收货地址 
               path: '/mine/address',
               name: 'address',
               component: MineAddress
@@ -134,6 +152,16 @@ export default new Router({
               path: '/mine/address-add',
               name: 'addressAdd',
               component: MineAddressAdd
+            }, {
+              // 我的 使用反馈 
+              path: '/mine/feedback',
+              name: 'feedback',
+              component: MineFeedback
+            }, {
+              // 我的 系统设置 
+              path: '/mine/setting',
+              name: 'setting',
+              component: MineSetting
             }
           ]
         }

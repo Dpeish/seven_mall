@@ -7,21 +7,27 @@
       </li>
     </ul>
     <ul class="x-list clearfix">
-      <li v-for="(item, index) in xlistTwo" :key="index">
+      <li v-for="(item, index) in xlistTwo" :key="index" @click="goPage(item.link)">
         <a :href="item.tel">
           <span class="iconfont icons" :class="item.iconName"></span>
           <p>{{ item.title }}</p>
         </a>
       </li>
     </ul>
+    <share-area v-model="extShow" @input="closeShare"></share-area>
   </div>
 </template>
 
 <script>
+import shareArea from '@/components/share';
 export default {
   name: 'xlist',
+  components: {
+    shareArea
+  },
   data () {
     return {
+      extShow: false,
       xlistOne: [
         {
           iconName: 'icon-jifen',
@@ -46,7 +52,7 @@ export default {
         }, {
           iconName: 'icon-share',
           title: '分享',
-          link: '/'
+          link: 'share'
         }
       ], 
       xlistTwo: [
@@ -59,19 +65,27 @@ export default {
           iconName: 'icon-feedback',
           title: '使用反馈',
           tel: false,
-          link: '/'
+          link: '/mine/feedback'
         }, {
           iconName: 'icon-setting',
           title: '设置',
           tel: false,
-          link: '/'
+          link: '/mine/setting'
         }
       ]
     }
   },
   methods: {
     goPage(link) {
-      this.$router.push(link)
+      if (link == 'share') {
+        this.extShow = !this.extShow;
+        console.log(this.extShow)
+      } else {
+        this.$router.push(link)
+      }
+    },
+    closeShare(data) {
+      this.extShow = data;
     }
   }
 }

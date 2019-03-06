@@ -74,8 +74,8 @@ export default {
 
 <style scoped>
 .rating {
-  color: #ffa037 !important;
-  
+  display: inline-block;
+  color: #ffa037;
 }
 .rating span {
   margin: 0 0.02rem;

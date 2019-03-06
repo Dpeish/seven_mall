@@ -38,7 +38,7 @@
               </li>
               <li class="item-view-cell">
                 <div class="order-info text-hidden">
-                  <x-rate :extScore="item.score" disabled></x-rate>
+                  <x-rate :extScore="item.score" disabled></x-rate> <span class="text-orange">{{item.score}}</span>
                 </div>
               </li>
             </ul>
