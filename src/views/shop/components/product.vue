@@ -15,32 +15,36 @@
           <i class="iconfont icon-sousuo"></i>
         </li>
       </ul>
-      <div class="product-area">
-        <div class="product-title">全部商品</div>
-        <ul class="product-view">
-          <li class="product-item" v-for="(item, index) in goodsList" :key="index">
-            <img :src="item.goodsImg" alt="" class="goods-img">
-            <div class="goods-content">
-              <p class="goods-info">{{ item.info }}</p>
-              <p class="goods-weight">规格：{{ item.weight }}</p>
-              <p class="goods-price">{{ item.price | formatPrice }}<span class="goods-unit"> /{{ item.unit }}</span></p>
-            </div>
-            <div class="goods-add">
-              <span class="iconfont icon-add"></span>
-            </div>
-          </li>
-        </ul>
+      <div class="product-area" ref="product">
+        <div class="wrap">
+          <div class="product-title">全部商品</div>
+          <ul class="product-view">
+            <li class="product-item" v-for="(item, index) in goodsList" :key="index">
+              <img :src="item.goodsImg" alt="" class="goods-img">
+              <div class="goods-content">
+                <p class="goods-info">{{ item.info }}</p>
+                <p class="goods-weight">规格：{{ item.weight }}</p>
+                <p class="goods-price">{{ item.price | formatPrice }}<span class="goods-unit"> /{{ item.unit }}</span></p>
+              </div>
+              <div class="goods-add">
+                <span class="iconfont icon-add"></span>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import BScroll from 'better-scroll';
 import goods from '@/assets/index/goods.jpg';
 export default {
   name: 'product',
   data () {
     return {
+      productScroll: '', // 商品滚动条
       menuList: [
         {
           name: '全部商品',
@@ -109,15 +113,44 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    _initScroll () {
+      if (!this.productScroll) {
+        this.productScroll = new BScroll(this.$refs.product, {
+          click: true,
+          probeType: 2,
+          pullUpLoad: {
+            threshold: -30
+          }
+        });
+        
+        this.productScroll.on('pullingUp', () => {
+          console.log(1)
+          document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight;
+          // this.scrollDown();
+        })
+        // console.log(this.productScroll)
+      } else {
+        this.productScroll.refresh();
+      };
+    }
+  },
+  mounted() {
+    this.$nextTick(()=>{
+      this._initScroll();
+    });
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/index.scss';
+
 .product {
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 0.98rem);
+  overflow: hidden;
   display: flex;
   .view-left {
     width: .94rem;
@@ -173,7 +206,11 @@ export default {
 .product-area {
   overflow: hidden;
   width: 100%;
+  height: calc(100% - .44rem);
   @include border-left(#f5f5f5);
+  .wrap {
+    height: auto;
+  }
   .product-title {
     padding: .06rem .15rem;
     font-size: .14rem;

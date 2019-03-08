@@ -16,8 +16,13 @@ const Agreement = r => require.ensure([], () => r(require('@/views/Login/agreeme
 const ShopParent = r => require.ensure([], () => r(require('@/views/shop/index.vue')), 'ShopParent')
 // 商品
 const Shop = r => require.ensure([], () => r(require('@/views/shop/children/shop.vue')), 'Shop')
+
+
+// 购物车主界面
+const CartParent = r => require.ensure([], () => r(require('@/views/cart/index.vue')), 'CartParent')
 // 购物车
-const Cart = r => require.ensure([], () => r(require('@/views/cart/index.vue')), 'Cart')
+const Cart = r => require.ensure([], () => r(require('@/views/cart/children/cart.vue')), 'Cart')
+
 // 我的页面主页面
 const MineParent = r => require.ensure([], () => r(require('@/views/mine/index.vue')), 'MineParent')
 // 我的
@@ -82,13 +87,24 @@ export default new Router({
             }
           ]
         }, {
-          path: '/cart',
-          name: 'cart',
+          path: '/cartParent',
           meta: {
-            id: 2,
             navShow: true // 导航是否显示
           },
-          component: Cart
+          redirect: '/cart',
+          component: CartParent,
+          children: [
+            {
+              // 购物车
+              path: '/cart',
+              name: 'cart',
+              component: Cart,
+              meta: {
+                id: 2,
+                navShow: true
+              }
+            }
+          ]
         }, {
           path: '/mineParent',
           meta: {

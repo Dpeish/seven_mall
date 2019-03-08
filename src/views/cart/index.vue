@@ -1,13 +1,17 @@
+
 <template>
-  <div>这里是购物车啊</div>
+  <div class="cart">
+    <!-- 子页面入口 -->
+    <router-view/>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'cart'
+  name: 'cartParent'
 }
 </script>
 
 <style lang="scss" scoped>
-@import "src/styles/mixin.scss";
+
 </style>
