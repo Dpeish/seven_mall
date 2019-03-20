@@ -1,11 +1,7 @@
 <template>
   <div class="product">
     <div class="view-left">
-      <ul class="view-item">
-        <li class="item-cell cell-active" v-for="(item, index) in menuList" :key="index">
-          {{ item.name }}
-        </li>
-      </ul>
+      <recurnav :navlist="menuList"></recurnav>
     </div>
     <div class="view-right">
       <ul class="head-sort">
@@ -39,9 +35,13 @@
 
 <script>
 import BScroll from 'better-scroll';
+import recurnav from './recurnav';
 import goods from '@/assets/index/goods.jpg';
 export default {
   name: 'product',
+  components: {
+    recurnav
+  },
   data () {
     return {
       productScroll: '', // 商品滚动条
@@ -51,10 +51,28 @@ export default {
           id: 1
         }, {
           name: '休闲食品',
-          id: 2
+          id: 2,
+          children: [
+            {
+              name: '饼干糕点',
+              id: 21
+            }, {
+              name: '水果罐头',
+              id: 22
+            }
+          ]
         }, {
           name: '粮油食品',
-          id: 3
+          id: 3,
+          children: [
+            {
+              name: '米',
+              id: 31
+            }, {
+              name: '面/粉',
+              id: 32
+            }
+          ]
         }, {
           name: '饮料冲调',
           id: 4
@@ -164,21 +182,6 @@ export default {
   }
 }
 
-.view-item {
-  width: 100%;
-  overflow: hidden;
-  .item-cell {
-    height: .44rem;
-    padding: .11rem .1rem;
-    font-size: .14rem;
-    @include border-bottom(#f5f5f5);
-  }
-  .cell-active {
-    background: #fff;
-    color: $pinkText;
-    border-left: 0.03rem solid $pinkText;
-  }
-}
 
 .head-sort {
   display: flex;

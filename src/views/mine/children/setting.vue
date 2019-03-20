@@ -17,7 +17,7 @@
     <div class="btn-area">
       <div class="btn" @click="outSys">退出登录</div>
     </div>
-    <div class="msg-tips">
+    <div class="msg-tips" @click="gotest">
       <p>@ Power by Dpeish 2019 All right reserved</p>
     </div>
   </div>
@@ -28,7 +28,7 @@ export default {
   name: 'setting',
   data() {
     return {
-
+      testNum: 0
     }
   },
   methods: {
@@ -37,6 +37,13 @@ export default {
     },
     outSys () {
       this.$router.push('/login');
+    },
+    gotest () {
+      this.testNum++;
+      if (this.testNum === 6) {
+        this.$router.push('/test');
+        this.testNum = 0;
+      }
     }
   }
 }

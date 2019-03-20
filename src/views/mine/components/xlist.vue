@@ -79,7 +79,7 @@ export default {
     goPage(link) {
       if (link == 'share') {
         this.extShow = !this.extShow;
-        console.log(this.extShow)
+        // console.log(this.extShow)
       } else {
         this.$router.push(link)
       }

@@ -51,6 +51,9 @@ const MineFeedback = r => require.ensure([], () => r (require('@/views/mine/chil
 const MineSetting = r => require.ensure([], () => r (require('@/views/mine/children/setting.vue')) , 'MineSetting')
 
 
+// 测试页面
+const MyTest = r => require.ensure([], () => r (require('@/views/test/index.vue')) , 'MyTest')
+
 Vue.use(Router)
 
 export default new Router({
@@ -198,6 +201,10 @@ export default new Router({
       path: '/agreement',
       name: 'agreement',
       component: Agreement
+    }, {
+      path: '/test',
+      name: 'test',
+      component: MyTest
     }
   ],
   scrollBehavior: function (to, from, savedPosition) {
