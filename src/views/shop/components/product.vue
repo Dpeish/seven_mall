@@ -1,21 +1,23 @@
 <template>
   <div class="product">
-    <div class="view-left">
-      <recurnav :navlist="menuList"></recurnav>
+    <div class="view-left" ref="nav">
+      <div class="wrap">
+        <recurnav :navlist="menuList" @navData="navData"></recurnav>
+      </div>
     </div>
     <div class="view-right">
       <ul class="head-sort">
-        <li class="sort-item">综合排序</li>
-        <li class="sort-item">品牌筛选</li>
-        <li class="sort-search">
+        <li class="sort-item" @click="openSort">综合排序</li>
+        <li class="sort-item" @click="openBrand">品牌筛选</li>
+        <li class="sort-search" @click="openSearch">
           <i class="iconfont icon-sousuo"></i>
         </li>
       </ul>
       <div class="product-area" ref="product">
         <div class="wrap">
-          <div class="product-title">全部商品</div>
+          <div class="product-title">{{ navName }}</div>
           <ul class="product-view">
-            <li class="product-item" v-for="(item, index) in goodsList" :key="index">
+            <li class="product-item" v-for="(item, index) in goodsList" :key="index" @click="enterGoods">
               <img :src="item.goodsImg" alt="" class="goods-img">
               <div class="goods-content">
                 <p class="goods-info">{{ item.info }}</p>
@@ -30,25 +32,37 @@
         </div>
       </div>
     </div>
+    <sortpanel v-model="extShow" @input="closeSort" @chooseSort='chooseSort'></sortpanel>
+    <brandfilter v-model="brandShow" @input="closeBrand" @chooseBrand='chooseBrand'></brandfilter>
   </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll';
 import recurnav from './recurnav';
+import sortpanel from './sortpanel'; // 排序面板
+import brandfilter from './brandfilter'; // 品牌筛选
 import goods from '@/assets/index/goods.jpg';
 export default {
   name: 'product',
   components: {
-    recurnav
+    recurnav,
+    sortpanel,
+    brandfilter
   },
   data () {
     return {
       productScroll: '', // 商品滚动条
+      navScroll: '', // 导航条滚动区
+      navName: '全部商品', // 导航名称 默认全部商品
+      extShow: false, // 展示筛选面板
+      brandShow: false, // 品牌筛选
+      searchKey: '', // 搜索内容
       menuList: [
         {
           name: '全部商品',
-          id: 1
+          id: 1,
+          children: []
         }, {
           name: '休闲食品',
           id: 2,
@@ -59,6 +73,24 @@ export default {
             }, {
               name: '水果罐头',
               id: 22
+            }, {
+              name: '糖果',
+              id: 23
+            }, {
+              name: '肉类/豆干/辣条',
+              id: 24
+            }, {
+              name: '蜜饯果干',
+              id: 25
+            }, {
+              name: '膨化食品',
+              id: 26
+            }, {
+              name: '巧克力',
+              id: 27
+            }, {
+              name: '果冻',
+              id: 28
             }
           ]
         }, {
@@ -75,13 +107,16 @@ export default {
           ]
         }, {
           name: '饮料冲调',
-          id: 4
+          id: 4,
+          children: []
         }, {
           name: '调味品',
-          id: 5
+          id: 5,
+          children: []
         }, {
           name: '酒',
-          id: 6
+          id: 6,
+          children: []
         }
       ],
       goods,
@@ -132,6 +167,13 @@ export default {
       ]
     }
   },
+  watch: {
+    searchKey (val) {
+      if (val) {
+        this.$toast.info(val)
+      }
+    }
+  },
   methods: {
     _initScroll () {
       if (!this.productScroll) {
@@ -152,12 +194,59 @@ export default {
       } else {
         this.productScroll.refresh();
       };
+
+      if (!this.navScroll) {
+        this.navScroll = new BScroll(this.$refs.nav, {
+          click: true,
+          probeType: 2
+        })
+      }
+    },
+    navData (res) {
+      // 获取子级传过来的nav标题名称
+      this.navName = res.name;
+    },
+    openSort () {
+      // 打开筛选面板
+      this.extShow = !this.extShow;
+    },
+    closeSort (data) {
+      // 关闭筛选面板
+      this.extShow = data;
+    },
+    chooseSort (res) {
+      this.extShow = false;
+      this.$toast.info(res.sortName)
+    },
+    openBrand () {
+      // 打开筛选面板
+      this.brandShow = !this.brandShow;
+    },
+    closeBrand (data) {
+      // 关闭筛选面板
+      this.brandShow = data;
+    },
+    chooseBrand (res) {
+      this.brandShow = false;
+      this.$toast.info(res.brandName)
+    },
+    openSearch () {
+      // 前往商品搜索界面
+      this.$router.push('./shopsearch');
+    },
+    enterGoods () {
+      // 进入商品详情
+      this.$router.push('/goodsDetail')
     }
   },
   mounted() {
     this.$nextTick(()=>{
       this._initScroll();
     });
+
+    if (this.$route.params.searchKey) {
+      this.searchKey = this.$route.params.searchKey;
+    }
   }
 }
 </script>
@@ -171,9 +260,13 @@ export default {
   overflow: hidden;
   display: flex;
   .view-left {
+    overflow: hidden;
     width: .94rem;
     height: 100%;
     background: #f5f5f5;
+    .wrap {
+      height: auto;
+    }
   }
   .view-right {
     flex: 1;

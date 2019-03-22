@@ -2,12 +2,12 @@
   <div>
     <ul class="view-item">
       <li class="item-cell" :class="{'bg-fff': showNav === item.id }" v-for="(item, index) of navlist" :key="index">
-        <span class="item-name" :class="{'cell-active': showNav === item.id }" @click.self="openNav(item)">{{ item.name }}</span>
-        <ul class="item-children" :class="{'noChildren': showNav === item.id }" v-if="item.children">
-          <li>
-            <recurnav :navlist="item.children" @click="childClick(item.children)"></recurnav>
+        <span class="item-name" :class="{'cell-active': showNav === item.id }" @click.self="openNav(index, item)">{{ item.name }}</span>
+        <div class="item-children" :class="{'noChildren': showNav === item.id }">
+          <li class="item-cell" v-for="(child, ind) of item.children" :key="ind">
+            <span class="item-name" :class="{'children-active': showChild === child.id }" @click.self="childToggle(child)">{{ child.name }}</span>
           </li>
-        </ul>
+        </div>
       </li>
     </ul>
   </div>
@@ -23,25 +23,18 @@ export default {
   data() {
     return {
       showNav: 1,
-      showChildren: ''
+      showChild: ''
     }
   },
   methods: {
-    openNav(e) {
-      console.log(e)
-      if (e.children) {
-        this.showNav = e.id;
-      } else {
-        this.showNav = e.id
-      }
+    openNav(index, e) {
+      this.showNav = e.id;
+      this.showChild = '';
+      this.$emit('navData', e);
     },
-    childClick(e) {
-      console.log(e)
-      if (e) {
-        this.showChildren = e.id;
-      } else {
-        this.showChildren = e.id
-      }
+    childToggle (e) {
+      this.showChild = e.id;
+      this.$emit('navData', e);
     }
   }
 }
@@ -61,31 +54,34 @@ export default {
       width: 100%;
       height: 100%;
       padding: .11rem .1rem;
+      border-left: 0.03rem solid transparent;
     }
     .item-children {
+      display: none;
       overflow: hidden;
-      height: 0;
+      height: 100%;
+      transition: all 0.8s ease;
     }
-  }
-  .cell-active {
-    background: #fff;
-    color: $pinkText;
-    border-left: 0.03rem solid $pinkText;
-  }
-  .children-active {
-    background: #fff;
-    color: $pinkText;
-    border-left: 0.03rem solid transparent;
+    .noChildren {
+      display: block;
+    }
+    .cell-active {
+      background: #fff;
+      color: $pinkText;
+      border-left: 0.03rem solid $pinkText;
+    }
+    .children-active {
+      background: #fff;
+      color: $pinkText;
+      border-left: 0.03rem solid transparent;
+    }
   }
   .bg-fff {
     background: #fff;
   }
 }
 
-.noChildren {
-  overflow: inherit;
-  height: 100%!important;
-}
+
 
 
 </style>

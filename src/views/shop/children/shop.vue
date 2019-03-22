@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="shop">
     <index-header></index-header>
     <!-- 店铺信息 -->
     <div class="store">
       <img :src="notImg" alt="" class="store-head-img">
-      <div class="store-info">
+      <div class="store-info" @click.stop="enterShop">
         <p class="store-name">起送¥ 15 | 配送¥ 0</p>
         <div class="store-id">
           <x-rate :extScore="4.5" disabled></x-rate>
@@ -23,7 +23,7 @@
 <script>
 import notImg from '@/assets/common/notimg.png';
 import indexHeader from '@/views/index/components/header';
-import circular from '@/components/circular'; // 活动通知
+import circular from '../components/cirular'; // 活动通知
 import product from '../components/product'; // 商品
 
 export default {
@@ -39,7 +39,9 @@ export default {
     }
   },
   methods: {
-    
+    enterShop () {
+      this.$router.push('/shopinfo')
+    }
   },
   mounted() {
     
@@ -49,6 +51,17 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/index.scss";
+.shop {
+  padding-top: .44rem;
+  padding-bottom: .54rem;
+}
+.shop /deep/ .header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
 .store /deep/ .rating {
   color: rgba(255, 255, 255, 0.8);
   .iconfont {

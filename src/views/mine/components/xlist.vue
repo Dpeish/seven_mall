@@ -59,8 +59,8 @@ export default {
         {
           iconName: 'icon-zixun',
           title: '客服咨询',
-          tel: 'tel: 186050801395',
-          link: '/'
+          tel: 'tel:186050801395',
+          link: 'zixun'
         }, {
           iconName: 'icon-feedback',
           title: '使用反馈',
@@ -80,6 +80,8 @@ export default {
       if (link == 'share') {
         this.extShow = !this.extShow;
         // console.log(this.extShow)
+      } else if (link == 'zixun') {
+        // nothing
       } else {
         this.$router.push(link)
       }

@@ -39,7 +39,6 @@ export default {
     font-size: .18rem;
     text-align: center;
   }
-
 }
 </style>
 

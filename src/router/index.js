@@ -16,6 +16,12 @@ const Agreement = r => require.ensure([], () => r(require('@/views/Login/agreeme
 const ShopParent = r => require.ensure([], () => r(require('@/views/shop/index.vue')), 'ShopParent')
 // 商品
 const Shop = r => require.ensure([], () => r(require('@/views/shop/children/shop.vue')), 'Shop')
+// 商品搜索
+const ShopSearch = r => require.ensure([], () => r(require('@/views/shop/children/shopsearch.vue')), 'ShopSearch')
+// 商店信息
+const ShopInfo = r => require.ensure([], () => r(require('@/views/shop/children/shopinfo.vue')), 'ShopInfo')
+// 商品详情
+const ShopGoods = r => require.ensure([], () => r(require('@/views/shop/children/goodsDetail.vue')), 'ShopGoods')
 
 
 // 购物车主界面
@@ -87,6 +93,21 @@ export default new Router({
                 id: 1,
                 navShow: true
               }
+            }, {
+              // 商品搜索
+              path: '/shopsearch',
+              name: 'shopsearch',
+              component: ShopSearch
+            }, {
+              // 店铺信息
+              path: '/shopinfo',
+              name: 'shopinfo',
+              component: ShopInfo
+            }, {
+              // 商品详情
+              path: '/goodsDetail',
+              name: 'goodsDetail',
+              component: ShopGoods
             }
           ]
         }, {
