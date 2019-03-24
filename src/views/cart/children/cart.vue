@@ -34,7 +34,9 @@
               <p class="goods-price">￥210<span class="goods-unit"> /箱</span></p>
             </div>
           </div>
-          <div class="numbox"></div>
+          <div class="numbox">
+            <x-counter></x-counter>
+          </div>
         </li>
       </ul>
     </div>
@@ -234,7 +236,8 @@ export default {
       .numbox {
         width: 100%;
         height: .44rem;
-        @include border-bottom-posi(#f5f5f5, .15rem)
+        padding-left: 1.14rem;
+        @include border-bottom-posi(#f5f5f5, .15rem);
       }
     }
   }

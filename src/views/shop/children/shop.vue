@@ -2,9 +2,9 @@
   <div class="shop">
     <index-header></index-header>
     <!-- 店铺信息 -->
-    <div class="store">
+    <div class="store" @click="enterShop">
       <img :src="notImg" alt="" class="store-head-img">
-      <div class="store-info" @click.stop="enterShop">
+      <div class="store-info">
         <p class="store-name">起送¥ 15 | 配送¥ 0</p>
         <div class="store-id">
           <x-rate :extScore="4.5" disabled></x-rate>

@@ -6,7 +6,7 @@
       </span>
       <p class="store-name">店铺信息</p>
       <span class="right-icon" @click="handleCollect">
-        <i class="iconfont" :class="[isCollect? 'icon-shoucang': 'icon-shoucang1']"></i>
+        <i class="iconfont" :class="[isCollect? 'icon-full': 'icon-star']"></i>
       </span>
     </div>
     <div class="container" ref="wrapper">
