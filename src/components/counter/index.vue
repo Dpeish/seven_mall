@@ -5,7 +5,7 @@
         <button :disabled="numValue < 2"><i class="iconfont icon-sub" @click="sub"></i></button>
       </div>
       <div class="minus-input">
-        <input type="number" v-model.number="numValue" @focus="enterNum($event)" @blur="blurNum($event)">
+        <input type="number" oninput="this.value=this.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'')" v-model.number="numValue" @focus="enterNum($event)" @blur="blurNum($event)">
       </div>
       <div class="minus-plus">
         <button :disabled="numValue >= maxValue"><i class="iconfont icon-jia" @click="add"></i></button>
@@ -21,11 +21,18 @@ export default {
     maxValue: {
       type: Number,
       default: Number.MAX_VALUE
+    },
+    amount: {
+      type: Number,
+      default: 1
+    },
+    goodsId: {
+      type: Number
     }
   },
   data () {
     return {
-      numValue: 1,
+      numValue: this.amount,
       rawNum: '', // input 聚焦时候获得的数量
     }
   },
@@ -39,6 +46,7 @@ export default {
         return false;
       } else {
         this.numValue++;
+        this.$emit('getCout', this.numValue, this.goodsId);
       }
     },
     sub () {
@@ -47,6 +55,7 @@ export default {
         return false;
       } else {
         this.numValue--;
+        this.$emit('getCout', this.numValue, this.goodsId);
       }
     },
     enterNum (e) {
@@ -56,9 +65,11 @@ export default {
       this.$nextTick(() => {
         if (e.target.value > this.maxValue) {
           this.numValue = this.rawNum;
+          
         } else if (e.target.value === '') {
           this.numValue = 1;
         }
+        this.$emit('getCout', this.numValue, this.goodsId);
       })
     }
   }

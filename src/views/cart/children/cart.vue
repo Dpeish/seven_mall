@@ -6,51 +6,237 @@
         管理
       </span>
     </div>
-    <div class="cart-container">
-      <ul class="cart-item">
+    <div class="cart-container" ref="wrapper">
+      <ul class="cart-item" v-for="(item, index) in cartData" :key="index">
         <li class="item-cell group">
-          <label class="item-checkbox">
-            <input type="checkbox" value="">
+          <label class="Nii-checkbox">
+            <input type="checkbox" :checked="item.checked" @click="handleCheck(item)">
           </label>
           <div class="item-cell-right">
-            <img :src="notImg" alt="" class="head-img">
-            <p class="store-name">大西瓜食品 <i class="iconfont icon-right-arrow"></i></p>
-            <span class="order-status">去凑单</span>
+            <img :src="item.storeImg" alt="" class="head-img">
+            <p class="store-name">{{ item.storeName }} <i class="iconfont icon-right-arrow"></i></p>
+            <span class="order-status" v-show="false">去凑单</span>
           </div>
         </li>
-        <li class="item-cell sale">
+        <li class="item-cell sale" v-if="item.saleList.length > 0">
           <span>满减</span>
           <p class="store-name">下单满100元立减30元 <i class="iconfont icon-right-arrow"></i></p>
         </li>
-        <li class="item-cell" v-for="(item, index) in 3" :key="index">
-          <label class="item-checkbox">
-            <input type="checkbox" value="">
+        <li class="item-cell" v-for="(goods, ind) in item.goodsList" :key="ind">
+          <label class="Nii-checkbox">
+            <input type="checkbox" :checked="goods.checked" @click="childCheck(item, goods)">
           </label>
           <div class="notice">
-            <img :src="notImg" alt="" class="goods-img">
+            <img :src="goods.goodsImg" alt="" class="goods-img">
             <div class="goods-content">
-              <p class="goods-info">茅台镇洞藏老酒53度酱香型白酒低价批发坛装十五年原浆纯粮食酒</p>
-              <p class="goods-weight">规格：500ml*6</p>
-              <p class="goods-price">￥210<span class="goods-unit"> /箱</span></p>
+              <p class="goods-info">{{ goods.goodsInfo }}</p>
+              <p class="goods-weight">规格：{{ goods.goodsWeight }}</p>
+              <p class="goods-price">{{ goods.goodsPrice | formatPrice }}<span class="goods-unit"> /{{ goods.unit }}</span></p>
             </div>
           </div>
           <div class="numbox">
-            <x-counter></x-counter>
+            <x-counter :amount='goods.amount' :goodsId='goods.goodsId' :maxValue='goods.max' @getCout="getCout"></x-counter>
           </div>
         </li>
       </ul>
+    </div>
+    <div class="all-account" ref="account">
+      <label class="Nii-checkbox all-checkbox">
+        <input type="checkbox" value="">
+      </label>
+      <div class="total">
+        {{piece}}件/{{kind}}种 <span class="money">{{ totalPrice | formatPrice }}</span>
+      </div>
+      <div class="account">
+        结算(1)
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import BScroll from 'better-scroll';
 import notImg from '@/assets/common/notimg.png';
+
+let cartList = [
+  {
+    storeName: '青果便利店',
+    storeId: 1,
+    storeImg: notImg,
+    saleList: [
+      {
+        saleType: 1,
+        dec: '下单满100元立减30元'
+      }
+    ],
+    goodsList: [
+      {
+        goodsId: 11,
+        goodsInfo: '茅台镇洞藏老酒53度酱香型白酒低价批发坛装十五年原浆纯粮食酒',
+        goodsImg: notImg,
+        goodsWeight: '500ml*6',
+        goodsPrice: 1,
+        unit: '箱',
+        amount: 2,
+        max: 20
+      }, {
+        goodsId: 12,
+        goodsInfo: '椰树牌椰子汁250ml*24',
+        goodsImg: notImg,
+        goodsWeight: '250ml*24',
+        goodsPrice: 2,
+        unit: '箱',
+        amount: 1,
+        max: 10
+      }
+    ]
+  }, {
+    storeName: '西瓜便利店',
+    storeId: 2,
+    storeImg: notImg,
+    saleList: [],
+    goodsList: [
+      {
+        goodsId: 21,
+        goodsInfo: '怡泉+C柠檬味汽水500ml*12饮料',
+        goodsImg: notImg,
+        goodsWeight: '500ml*6',
+        goodsPrice: 3,
+        unit: '箱',
+        amount: 3,
+        max: 5
+      }, {
+        goodsId: 12,
+        goodsInfo: '陶华碧老干妈香辣脆油辣椒210g瓶',
+        goodsImg: notImg,
+        goodsWeight: '500ml',
+        goodsPrice: 4,
+        unit: '瓶',
+        amount: 2,
+        max: 20
+      }
+    ]
+  }
+]
+
 export default {
   name: 'cart',
   data () {
     return {
-      notImg
+      notImg,
+      xscroll: '',
+      cartData: cartList, // 购车列表
+      piece: 0, // 小计 /件
+      kind: 0, // 小计 种类
+      totalPrice: 0, // 合计价格
+      storeCheck: [],
+      allCheck: []
     }
+  },
+  methods: {
+    // _initScroll () {
+    //   if (!this.scroll) {
+    //     this.scroll = new BScroll(this.$refs.wrapper, {
+    //       click: true,
+    //       probeType: 3
+    //     });
+    //   } else {
+    //     this.scroll.refresh();
+    //   };
+    // },
+    getCout(val, id) {
+      // 修改数量
+      let _self = this;
+      _self.cartData.forEach((item) => {
+        item.goodsList.forEach(items => {
+          if (items.goodsId = id) {
+            _self.$set(items, "amount", val);
+          }
+        })
+      });
+      this.handleTotal();
+    },
+    handleCheck(res) {
+      // 店铺选中
+      let _self = this;
+      _self.$nextTick(() => {
+        if(typeof res.checked == 'undefined'){
+          _self.$set(res, "checked", true);
+            //局部为child添加“checked”，值为true
+        } else {
+          res.checked = !res.checked;
+        }
+
+        if(res.checked) {
+          res.goodsList.forEach(item => {
+            _self.$set(item, "checked", true);
+          })
+        } else {
+          res.goodsList.forEach(item => {
+            _self.$set(item, "checked", false);
+          })
+        }
+        _self.handleTotal();
+
+      });
+    },
+    childCheck (parent, child) {
+      let _self = this;
+      // 商品选中
+      _self.$nextTick(() => {
+        if(typeof child.checked == 'undefined'){
+          _self.$set(child, "checked", true);
+            //局部为child添加“checked”，值为true
+        } else {
+          child.checked = !child.checked;
+        }
+        let _check = []; // 选中的商品
+
+        parent.goodsList.forEach(item => {
+          if (item.checked) {
+            _check.push(item);
+          }
+        });
+
+        if (_check.length >= parent.goodsList.length) {
+          if(typeof parent.checked == 'undefined'){
+            _self.$set(parent, "checked", true);
+              //局部为child添加“checked”，值为true
+          } else {
+            parent.checked = true;
+          }
+        } else {
+          parent.checked = false;
+        }
+
+        _self.handleTotal();
+      })
+    },
+    handleTotal () {
+      let _self = this;
+      _self.totalPrice = 0;
+      _self.piece = 0;
+      _self.kind = 0;
+
+      console.log(_self.cartData)
+
+      let _kind = [];
+      _self.cartData.forEach(item => {
+        item.goodsList.forEach((items, index) => {
+          if (items.checked) {
+            _self.totalPrice += items.goodsPrice * items.amount;
+            _kind.push(items);
+            _self.kind = _kind.length
+            _self.piece += items.amount - 0;
+          }
+        })
+      })
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      // this._initScroll();
+    });
   }
 }
 </script>
@@ -58,7 +244,12 @@ export default {
 <style lang="scss" scoped>
 @import "@/styles/index.scss";
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: .44rem;
+  z-index: 1;
   line-height: .44rem;
   text-align: center;
   background: $bg;
@@ -78,8 +269,8 @@ export default {
 }
 .cart-container {
   overflow: hidden;
-  width: 100%;
-  padding-bottom: .54rem;
+  padding-top: .44rem;
+  padding-bottom: .96rem;
   .cart-item {
     width: 100%;
     margin-top: .1rem;
@@ -124,30 +315,6 @@ export default {
       display: flex;
       background: #fff;
       flex-wrap: wrap;
-      .item-checkbox {
-        position: relative;
-        padding-left: 0.12rem;
-        width: .44rem;
-        input {
-          display: inline-block;
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          width: .18rem;
-          height: .18rem;
-          border-radius: .18rem;
-          border: 1px solid #b2b2b2;
-          font-size: .14rem;
-        }
-        input:checked {
-          border: none;
-          background: $btn;
-          background-image: url('../../../assets/login/check.png');
-          background-size: 80% 80%;
-          background-position: 50% 50%;
-          background-repeat: no-repeat;
-        }
-      }
       .item-cell-right {
         flex: 1;
         padding: .11rem .15rem .11rem 0;
@@ -240,6 +407,67 @@ export default {
         @include border-bottom-posi(#f5f5f5, .15rem);
       }
     }
+  }
+}
+
+.all-account {
+  @include border-top(#f5f5f5);
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: .5rem;
+  z-index: 2;
+  width: 100%;
+  height: .4rem;
+  background: #fcfcfc;
+  .all-checkbox {
+    width: .44rem;
+    height: .4rem;
+  }
+  .total {
+    flex: 1;
+    text-align: center;
+    line-height: .4rem;
+    font-size: .15rem;
+    color: #383838;
+    .money {
+      color: $pinkText;
+    }
+  }
+  .account {
+    box-sizing: border-box;
+    width: .92rem;
+    height: .4rem;
+    line-height: .4rem;
+    background: #FFA037;
+    color: #fff;
+    font-size: .15rem;
+    text-align: center;
+  }
+}
+
+.Nii-checkbox {
+  position: relative;
+  padding-left: 0.12rem;
+  width: .44rem;
+  input {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: .18rem;
+    height: .18rem;
+    border-radius: .18rem;
+    border: 1px solid #b2b2b2;
+    font-size: .14rem;
+  }
+  input:checked {
+    border: none;
+    background: $btn;
+    background-image: url('../../../assets/login/check.png');
+    background-size: 80% 80%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
   }
 }
 </style>

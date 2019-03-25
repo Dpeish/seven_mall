@@ -80,25 +80,24 @@ export default {
   mounted () {
     this.isActiveName = this.$route.name;
 
-    // 屏幕高度被软键盘占用的时候隐藏footer
-    let h = document.body.scrollHeight;
-    window.onresize = () => {
-      if (document.body.scrollHeight < h) {
-        this.$nextTick(() => {
-          // this.$refs.footer.style.bottom = "-.54rem";
-          this.$refs.footer.style.position = "static";
-        })
-      } else {
-        this.$nextTick(() => {
-          // this.$refs.footer.style.bottom = "0";
-          this.$refs.footer.style.position = "fixed";
-        })
-      }
-    }
+    // // 屏幕高度被软键盘占用的时候隐藏footer
+    // let h = document.body.clientHeight;
+    // window.onresize = () => {
+    //   if (document.body.clientHeight < h) {
+    //     this.$nextTick(() => {
+    //       // this.$refs.footer.style.bottom = "-.54rem";
+    //       this.$refs.footer.style.position = "static";
+    //     })
+    //   } else {
+    //     this.$nextTick(() => {
+    //       // this.$refs.footer.style.bottom = "0";
+    //       this.$refs.footer.style.position = "fixed";
+    //     })
+    //   }
+    // }
   },
   updated () {
     this.isActiveName = this.$route.name;
-   
   }
 }
 </script>
