@@ -9,8 +9,8 @@
     <div class="cart-container" ref="wrapper">
       <ul class="cart-item" v-for="(item, index) in cartData" :key="index">
         <li class="item-cell group">
-          <label class="Nii-checkbox">
-            <input type="checkbox" :checked="item.checked" @click="handleCheck(item)">
+          <label class="Nii-checkbox" @click="handleCheck(item)">
+            <input type="checkbox" :checked="item.checked">
           </label>
           <div class="item-cell-right">
             <img :src="item.storeImg" alt="" class="head-img">
@@ -23,8 +23,8 @@
           <p class="store-name">下单满100元立减30元 <i class="iconfont icon-right-arrow"></i></p>
         </li>
         <li class="item-cell" v-for="(goods, ind) in item.goodsList" :key="ind">
-          <label class="Nii-checkbox">
-            <input type="checkbox" :checked="goods.checked" @click="childCheck(item, goods)">
+          <label class="Nii-checkbox" @click="childCheck(item, goods)">
+            <input type="checkbox" :checked="goods.checked">
           </label>
           <div class="notice">
             <img :src="goods.goodsImg" alt="" class="goods-img">
@@ -41,14 +41,14 @@
       </ul>
     </div>
     <div class="all-account" ref="account">
-      <label class="Nii-checkbox all-checkbox">
-        <input type="checkbox" value="">
+      <label class="Nii-checkbox all-checkbox" @click="AllCheck">
+        <input type="checkbox" :checked='allChecked'>
       </label>
       <div class="total">
-        {{piece}}件/{{kind}}种 <span class="money">{{ totalPrice | formatPrice }}</span>
+        {{piece}}件/{{kind}}种 <span class="money">{{ totalPrice || '0' | formatPrice }}元</span>
       </div>
-      <div class="account">
-        结算(1)
+      <div class="account" @click="hanldeDelete">
+        结算
       </div>
     </div>
   </div>
@@ -106,7 +106,7 @@ let cartList = [
         amount: 3,
         max: 5
       }, {
-        goodsId: 12,
+        goodsId: 22,
         goodsInfo: '陶华碧老干妈香辣脆油辣椒210g瓶',
         goodsImg: notImg,
         goodsWeight: '500ml',
@@ -126,54 +126,88 @@ export default {
       notImg,
       xscroll: '',
       cartData: cartList, // 购车列表
+      allChecked: false, // 总计全选
       piece: 0, // 小计 /件
       kind: 0, // 小计 种类
       totalPrice: 0, // 合计价格
-      storeCheck: [],
-      allCheck: []
+    }
+  },
+  watch: {
+    cartData: {
+      handler(val) {
+        console.log(val)
+        // 如果购物车被清空全选按钮不打勾
+        if (!val.length) {
+          console.log(1)
+          _self.allChecked = false;
+        }
+        // 监听购物车数据 确认用户是否全部选中
+        let _self = this;
+        for (let i = 0; i < val.length; i++) {
+          if (!val[i].checked) {
+            _self.allChecked = false;
+            // 如果有一个没选中就不是全选，跳出循环
+            break;
+          } else {
+            // 全选中了
+            _self.allChecked = true;
+          }
+        }
+      },
+      deep: true
     }
   },
   methods: {
-    // _initScroll () {
-    //   if (!this.scroll) {
-    //     this.scroll = new BScroll(this.$refs.wrapper, {
-    //       click: true,
-    //       probeType: 3
-    //     });
-    //   } else {
-    //     this.scroll.refresh();
-    //   };
-    // },
     getCout(val, id) {
       // 修改数量
       let _self = this;
       _self.cartData.forEach((item) => {
         item.goodsList.forEach(items => {
-          if (items.goodsId = id) {
+          if (items.goodsId == id) {
             _self.$set(items, "amount", val);
           }
         })
       });
       this.handleTotal();
     },
+    AllCheck () {
+      // 总计/全选 全不选
+      let _self = this;
+
+      _self.$nextTick(() => {
+        _self.allChecked = !_self.allChecked;
+
+        if (_self.allChecked) {
+          _self.cartData.forEach(item => {
+            item.checked = true;
+            item.goodsList.forEach(items => {
+              items.checked = true;
+            })
+          })
+        } else {
+          _self.cartData.forEach(item => {
+            item.checked = false;
+            item.goodsList.forEach(items => {
+              items.checked = false;
+            })
+          })
+        }
+        _self.handleTotal();
+      })
+      
+    },
     handleCheck(res) {
       // 店铺选中
       let _self = this;
       _self.$nextTick(() => {
-        if(typeof res.checked == 'undefined'){
-          _self.$set(res, "checked", true);
-            //局部为child添加“checked”，值为true
-        } else {
-          res.checked = !res.checked;
-        }
-
+        res.checked = !res.checked;
         if(res.checked) {
           res.goodsList.forEach(item => {
-            _self.$set(item, "checked", true);
+            item.checked = true;
           })
         } else {
           res.goodsList.forEach(item => {
-            _self.$set(item, "checked", false);
+            item.checked = false;
           })
         }
         _self.handleTotal();
@@ -184,12 +218,8 @@ export default {
       let _self = this;
       // 商品选中
       _self.$nextTick(() => {
-        if(typeof child.checked == 'undefined'){
-          _self.$set(child, "checked", true);
-            //局部为child添加“checked”，值为true
-        } else {
-          child.checked = !child.checked;
-        }
+        child.checked = !child.checked;
+
         let _check = []; // 选中的商品
 
         parent.goodsList.forEach(item => {
@@ -198,13 +228,9 @@ export default {
           }
         });
 
+        // 选中的商品只要大于等于购物车的种类,那么就说明该店铺内的商品为全选
         if (_check.length >= parent.goodsList.length) {
-          if(typeof parent.checked == 'undefined'){
-            _self.$set(parent, "checked", true);
-              //局部为child添加“checked”，值为true
-          } else {
-            parent.checked = true;
-          }
+          parent.checked = true;
         } else {
           parent.checked = false;
         }
@@ -213,13 +239,11 @@ export default {
       })
     },
     handleTotal () {
+      // 计算总价\件数\品类
       let _self = this;
       _self.totalPrice = 0;
       _self.piece = 0;
       _self.kind = 0;
-
-      console.log(_self.cartData)
-
       let _kind = [];
       _self.cartData.forEach(item => {
         item.goodsList.forEach((items, index) => {
@@ -231,11 +255,36 @@ export default {
           }
         })
       })
+    },
+    hanldeDelete () {
+      let _self = this;
+      for (let i = 0; i < _self.cartData.length; i++) {
+        if (_self.cartData[i].checked) {
+          _self.cartData.splice(i, 1)
+          // 如果有一个没选中就不是全选，跳出循环
+          break;
+        }
+        for (let j = 0; j < _self.cartData[i].goodsList.length; j++) {
+          if (_self.cartData[i].goodsList[j].checked) {
+            _self.cartData[i].goodsList.splice(j, 1)
+            // 如果有一个没选中就不是全选，跳出循环
+            break;
+          }
+        }
+      }
+      _self.handleTotal();
     }
   },
   mounted () {
     this.$nextTick(() => {
-      // this._initScroll();
+      this.cartData.forEach(item => {
+        this.$set(item, 'checked', false);
+        item.goodsList.forEach(items => {
+          this.$set(items, 'checked', false);
+        })
+      });
+
+      // console.log(this.cartData)
     });
   }
 }
