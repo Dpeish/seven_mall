@@ -2,11 +2,18 @@
   <div>
     <div class="header">
       购物车
-      <span class="manage">
-        管理
+      <span class="manage" v-if="isAccount" @click="hanldeEdit">
+        {{ isEdit? '完成': '管理' }}
       </span>
     </div>
     <div class="cart-container" ref="wrapper">
+      <div class="noData" v-if="!isAccount">
+        <p class="not-img">
+          <span class="iconfont icon-notstore"></span>
+        </p>
+        <p>购物车竟然是空的</p>
+        <p>快去逛逛吧!</p>
+      </div>
       <ul class="cart-item" v-for="(item, index) in cartData" :key="index">
         <li class="item-cell group">
           <label class="Nii-checkbox" @click="handleCheck(item)">
@@ -40,15 +47,18 @@
         </li>
       </ul>
     </div>
-    <div class="all-account" ref="account">
+    <div class="all-account" ref="account" v-if="isAccount">
       <label class="Nii-checkbox all-checkbox" @click="AllCheck">
         <input type="checkbox" :checked='allChecked'>
       </label>
       <div class="total">
         {{piece}}件/{{kind}}种 <span class="money">{{ totalPrice || '0' | formatPrice }}元</span>
       </div>
-      <div class="account" @click="hanldeDelete">
+      <div class="account" @click="hanldeCommit" v-if="!isEdit">
         结算
+      </div>
+      <div v-else class="edit" @click="hanldeDelete">
+        删除
       </div>
     </div>
   </div>
@@ -71,16 +81,16 @@ let cartList = [
     ],
     goodsList: [
       {
-        goodsId: 11,
+        goodsId: 1,
         goodsInfo: '茅台镇洞藏老酒53度酱香型白酒低价批发坛装十五年原浆纯粮食酒',
         goodsImg: notImg,
         goodsWeight: '500ml*6',
         goodsPrice: 1,
         unit: '箱',
-        amount: 2,
+        amount: 1,
         max: 20
       }, {
-        goodsId: 12,
+        goodsId: 2,
         goodsInfo: '椰树牌椰子汁250ml*24',
         goodsImg: notImg,
         goodsWeight: '250ml*24',
@@ -97,22 +107,22 @@ let cartList = [
     saleList: [],
     goodsList: [
       {
-        goodsId: 21,
+        goodsId: 1,
         goodsInfo: '怡泉+C柠檬味汽水500ml*12饮料',
         goodsImg: notImg,
         goodsWeight: '500ml*6',
         goodsPrice: 3,
         unit: '箱',
-        amount: 3,
+        amount: 1,
         max: 5
       }, {
-        goodsId: 22,
+        goodsId: 4,
         goodsInfo: '陶华碧老干妈香辣脆油辣椒210g瓶',
         goodsImg: notImg,
         goodsWeight: '500ml',
         goodsPrice: 4,
         unit: '瓶',
-        amount: 2,
+        amount: 1,
         max: 20
       }
     ]
@@ -130,17 +140,19 @@ export default {
       piece: 0, // 小计 /件
       kind: 0, // 小计 种类
       totalPrice: 0, // 合计价格
+      isEdit: false // 是否编辑
     }
   },
   watch: {
     cartData: {
       handler(val) {
-        console.log(val)
+        // console.log(val)
         // 如果购物车被清空全选按钮不打勾
         if (!val.length) {
-          console.log(1)
-          _self.allChecked = false;
+          // console.log(val)
+          return false;
         }
+
         // 监听购物车数据 确认用户是否全部选中
         let _self = this;
         for (let i = 0; i < val.length; i++) {
@@ -153,21 +165,43 @@ export default {
             _self.allChecked = true;
           }
         }
+        // console.log(val)
       },
       deep: true
+    }
+  },
+  computed: {
+    isAllCheck () {
+      return this.cartData.every((val) => {
+        // console.log(val)
+        // 如果购物车列表中每一条数据的checked都为true 那位证明用户全部选择了，否则返回flase
+        return val.checked;
+      })
+    },
+    isAccount () {
+      return this.cartData.length;
     }
   },
   methods: {
     getCout(val, id) {
       // 修改数量
       let _self = this;
-      _self.cartData.forEach((item) => {
-        item.goodsList.forEach(items => {
-          if (items.goodsId == id) {
-            _self.$set(items, "amount", val);
+      // _self.cartData.forEach((item) => {
+      //   item.goodsList.forEach(items => {
+      //     if (items.goodsId == id) {
+      //       _self.$set(items, "amount", val);
+      //     }
+      //   })
+      // });
+
+      for (let i = 0; i < _self.cartData.length; i++) {
+        for (let j = 0; j < _self.cartData[i].goodsList.length; j++) {
+          if (_self.cartData[i].goodsList[j].goodsId == id) {
+            _self.$set(_self.cartData[i].goodsList[j], 'amount', val);
+            break;
           }
-        })
-      });
+        }
+      }
       this.handleTotal();
     },
     AllCheck () {
@@ -256,23 +290,28 @@ export default {
         })
       })
     },
+    hanldeCommit () {
+      // 提交
+      let _self = this;
+      console.log(_self.cartData)
+    },
     hanldeDelete () {
       let _self = this;
-      for (let i = 0; i < _self.cartData.length; i++) {
-        if (_self.cartData[i].checked) {
-          _self.cartData.splice(i, 1)
-          // 如果有一个没选中就不是全选，跳出循环
-          break;
-        }
-        for (let j = 0; j < _self.cartData[i].goodsList.length; j++) {
-          if (_self.cartData[i].goodsList[j].checked) {
-            _self.cartData[i].goodsList.splice(j, 1)
-            // 如果有一个没选中就不是全选，跳出循环
-            break;
+      // console.log(_self.cartData)
+      _self.cartData = _self.cartData.filter(item => {
+        return !item.checked;
+      })
+      _self.cartData.forEach((item, index) => {
+        item.goodsList.forEach((items, indexs) => {
+          if (items.checked) {
+            item.goodsList.splice(indexs, 1)
           }
-        }
-      }
+        })
+      });
       _self.handleTotal();
+    },
+    hanldeEdit () {
+      this.isEdit = !this.isEdit;
     }
   },
   mounted () {
@@ -292,6 +331,21 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/index.scss";
+.noData {
+  padding-top: 1.5rem;
+  text-align: center;
+  .not-img {
+    padding-bottom: .2rem;
+    .icon-notstore {
+      color: #ccc;
+      font-size: 2rem;
+    }
+  }
+  p {
+    font-size: .14rem;
+    color: #666;
+  }
+}
 .header {
   position: fixed;
   top: 0;
@@ -489,6 +543,16 @@ export default {
     height: .4rem;
     line-height: .4rem;
     background: #FFA037;
+    color: #fff;
+    font-size: .15rem;
+    text-align: center;
+  }
+  .edit {
+    box-sizing: border-box;
+    width: .92rem;
+    height: .4rem;
+    line-height: .4rem;
+    background: $pinkText;
     color: #fff;
     font-size: .15rem;
     text-align: center;

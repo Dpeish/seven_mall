@@ -25,7 +25,7 @@
                 <p class="goods-price">{{ item.price | formatPrice }}<span class="goods-unit"> /{{ item.unit }}</span></p>
               </div>
               <div class="goods-add">
-                <span class="iconfont icon-add"></span>
+                <span class="iconfont icon-jiagou"></span>
               </div>
             </li>
           </ul>
