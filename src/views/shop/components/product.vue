@@ -24,7 +24,7 @@
                 <p class="goods-weight">规格：{{ item.weight }}</p>
                 <p class="goods-price">{{ item.price | formatPrice }}<span class="goods-unit"> /{{ item.unit }}</span></p>
               </div>
-              <div class="goods-add">
+              <div class="goods-add" @click.stop="addGoods(item)">
                 <span class="iconfont icon-jiagou"></span>
               </div>
             </li>
@@ -58,6 +58,7 @@ export default {
       extShow: false, // 展示筛选面板
       brandShow: false, // 品牌筛选
       searchKey: '', // 搜索内容
+      test: [], // 测试
       menuList: [
         {
           name: '全部商品',
@@ -127,42 +128,54 @@ export default {
           info: '茅台镇洞藏老酒53度酱香型白酒低价批发坛装十五年原浆纯粮食酒',
           weight: '210g',
           price: 7.5,
-          unit: '件'
+          unit: '件',
+          goodsId: 1,
+          amount: 1
         }, {
           id: '002',
           goodsImg: goods,
           info: '怡泉+C柠檬味汽水500ml*12饮料',
           weight: '500ml',
           price: 3.1,
-          unit: '件'
+          unit: '件',
+          goodsId: 2,
+          amount: 1
         }, {
           id: '003',
           goodsImg: goods,
           info: '椰树牌椰子汁250ml*24',
           weight: '250ml',
           price: 3.1,
-          unit: '箱'
+          unit: '箱',
+          goodsId: 3,
+          amount: 1
         }, {
           id: '004',
           goodsImg: goods,
           info: '陶华碧老干妈香辣脆油辣椒210g瓶',
           weight: '210g',
           price: 7.5,
-          unit: '箱'
+          unit: '箱',
+          goodsId: 5,
+          amount: 1
         }, {
           id: '005',
           goodsImg: goods,
           info: '怡泉+C柠檬味汽水500ml*12饮料',
           weight: '500ml',
           price: 3.1,
-          unit: '件'
+          unit: '件',
+          goodsId: 5,
+          amount: 1
         }, {
           id: '006',
           goodsImg: goods,
           info: '椰树牌椰子汁250ml*24',
           weight: '250ml',
           price: 3.1,
-          unit: '箱'
+          unit: '箱',
+          goodsId: 6,
+          amount: 1
         }
       ]
     }
@@ -237,6 +250,12 @@ export default {
     enterGoods () {
       // 进入商品详情
       this.$router.push('/goodsDetail')
+    },
+    addGoods (res) {
+      // 添加商品 目前模拟添加至vuex
+      // console.log(res)
+      
+      this.$store.dispatch('addGoodsAsync', res)
     }
   },
   mounted() {

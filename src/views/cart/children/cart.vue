@@ -42,7 +42,17 @@
             </div>
           </div>
           <div class="numbox">
-            <x-counter :amount='goods.amount' :goodsId='goods.goodsId' :maxValue='goods.max' @getCout="getCout"></x-counter>
+            <div class="numbox-area">
+              <div class="minus-minus">
+                <button :disabled="goods.amount < 2"><i class="iconfont icon-sub" @click="sub($event, goods)"></i></button>
+              </div>
+              <div class="minus-input">
+                <input type="number" oninput="this.value=this.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'')" v-model.number="goods.amount" @focus="enterNum($event, goods)" @blur="blurNum($event, goods)">
+              </div>
+              <div class="minus-plus">
+                <button :disabled="goods.amount >= goods.max"><i class="iconfont icon-jia" @click="add($event, goods)"></i></button>
+              </div>
+            </div>
           </div>
         </li>
       </ul>
@@ -140,7 +150,8 @@ export default {
       piece: 0, // 小计 /件
       kind: 0, // 小计 种类
       totalPrice: 0, // 合计价格
-      isEdit: false // 是否编辑
+      isEdit: false, // 是否编辑
+      rawNum: '' // input focus时获取的数值
     }
   },
   watch: {
@@ -183,26 +194,49 @@ export default {
     }
   },
   methods: {
-    getCout(val, id) {
-      // 修改数量
-      let _self = this;
-      // _self.cartData.forEach((item) => {
-      //   item.goodsList.forEach(items => {
-      //     if (items.goodsId == id) {
-      //       _self.$set(items, "amount", val);
-      //     }
-      //   })
-      // });
-
-      for (let i = 0; i < _self.cartData.length; i++) {
-        for (let j = 0; j < _self.cartData[i].goodsList.length; j++) {
-          if (_self.cartData[i].goodsList[j].goodsId == id) {
-            _self.$set(_self.cartData[i].goodsList[j], 'amount', val);
-            break;
-          }
-        }
+    add (e, res) {
+      // 数量加
+      if (res.amount >= res.max){
+        return false;
+      } else {
+        res.amount++
       }
-      this.handleTotal();
+      if (res.checked) {
+        // 选中了才算价格
+        this.handleTotal();
+      } 
+    },
+    sub (e, res) {
+      // 数量减
+      if (res.amount < 2) {
+        return false;
+      } else {
+        res.amount--;
+      }
+      if (res.checked) {
+        // 选中了才算价格
+        this.handleTotal();
+      } 
+    },
+    enterNum (e, res) {
+      this.rawNum = e.target.value;
+      if (res.checked) {
+        // 选中了才算价格
+        this.handleTotal();
+      }
+    },
+    blurNum (e, res) {
+      this.$nextTick(() => {
+        if (e.target.value > res.max) {
+          res.amount = this.rawNum;
+        } else if (e.target.value === '') {
+          res.amount = 1;
+        }
+      });
+      if (res.checked) {
+        // 选中了才算价格
+        this.handleTotal();
+      }
     },
     AllCheck () {
       // 总计/全选 全不选
@@ -508,6 +542,46 @@ export default {
         height: .44rem;
         padding-left: 1.14rem;
         @include border-bottom-posi(#f5f5f5, .15rem);
+        .numbox-area {
+          display: flex;
+          width: 1.4rem;
+          height: .3rem;
+          border-radius: 0.03rem;
+          border: 0.01rem solid rgba(0, 0, 0, 0.2);
+        }
+
+        .numbox-area .minus-minus {
+          flex: 1;
+          height: 100%;
+        }
+
+        .numbox-area .minus-minus button {
+          width: 100%;
+          height: 100%;
+        }
+
+        .numbox-area .minus-plus {
+          flex: 1;
+          height: 100%;
+        }
+
+        .numbox-area .minus-plus button {
+          width: 100%;
+          height: 100%;
+        }
+
+        .numbox-area .minus-input {
+          min-width: 0;
+          flex: 2;
+          height: 100%;
+        }
+
+        .numbox-area .minus-input input {
+          width: 100%;
+          height: 100%;
+          font-size: .16rem;
+          text-align: center;
+        }
       }
     }
   }

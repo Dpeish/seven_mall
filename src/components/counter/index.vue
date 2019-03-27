@@ -28,6 +28,9 @@ export default {
     },
     goodsId: {
       type: Number
+    },
+    sotreId: {
+      type: Number
     }
   },
   data () {
@@ -46,7 +49,7 @@ export default {
         return false;
       } else {
         this.numValue++;
-        this.$emit('getCout', this.numValue, this.goodsId);
+        this.$emit('getCout', this.numValue, this.goodsId, this.storeId);
       }
     },
     sub () {
@@ -55,7 +58,7 @@ export default {
         return false;
       } else {
         this.numValue--;
-        this.$emit('getCout', this.numValue, this.goodsId);
+        this.$emit('getCout', this.numValue, this.goodsId, this.storeId);
       }
     },
     enterNum (e) {
@@ -69,7 +72,7 @@ export default {
         } else if (e.target.value === '') {
           this.numValue = 1;
         }
-        this.$emit('getCout', this.numValue, this.goodsId);
+        this.$emit('getCout', this.numValue, this.goodsId, this.storeId);
       })
     }
   }
