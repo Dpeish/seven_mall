@@ -3,7 +3,7 @@
     <span class="left-icon">
       <i class="iconfont icon-saomiao"></i>
     </span>
-    <p class="store-name">青果便利店 <i class="iconfont icon-down-arrow"></i></p>
+    <p class="store-name" @click="enterStore">{{$store.state.shop.storeName}} <i class="iconfont icon-down-arrow"></i></p>
     <span class="right-icon">
       <i class="iconfont icon-msg"></i>
     </span>
@@ -12,7 +12,18 @@
 
 <script>
 export default {
-  name: 'indexHeader'
+  name: 'indexHeader',
+  data() {
+    return {
+      storeName: '',
+      storeId: ''
+    }
+  },
+  methods: {
+    enterStore () {
+      this.$router.push('/chooseStore')
+    }
+  }
 }
 </script>
 

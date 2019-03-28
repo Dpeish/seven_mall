@@ -1,0 +1,67 @@
+{
+  "returnCode": 0,
+  "msg": "请求成功",
+  "goodsList": [
+    {
+      "goodsId": 1,
+      "goodsInfo": "怡泉+C柠檬味汽水500ml饮料",
+      "goodsImg": "https://gw2.alicdn.com/bao/uploaded/i1/2628735924/TB2Z9LMmFXXXXXUXpXXXXXXXXXX_!!2628735924.png_210x210.jpg",
+      "goodsWeight": "500ml*1",
+      "goodsPrice": 6,
+      "unit": "箱",
+      "amount": 1,
+      "checked": false,
+      "max": 20
+    }, {
+      "goodsId": 2,
+      "goodsInfo": "椰树牌椰子汁250ml, 纯天然无添加, 30年品质保证",
+      "goodsImg": "https://gw1.alicdn.com/bao/uploaded/i2/1629644923/TB2HapSu9VmpuFjSZFFXXcZApXa_!!1629644923.jpg_210x210.jpg",
+      "goodsWeight": "250ml*1",
+      "goodsPrice": 3.5,
+      "unit": "盒",
+      "amount": 1,
+      "checked": false,
+      "max": 20
+    }, {
+      "goodsId": 3,
+      "goodsInfo": "陶华碧老干妈香辣脆油辣椒210g瓶, 正宗贵州老干妈",
+      "goodsImg": "https://img.alicdn.com/img/i1/179490136/O1CN011CsKKo2gqC2EMMF_!!0-saturn_solar.jpg_210x210.jpg",
+      "goodsWeight": "250ml*1",
+      "goodsPrice": 3.5,
+      "unit": "盒",
+      "amount": 1,
+      "checked": false,
+      "max": 20
+    }, {
+      "goodsId": 4,
+      "goodsInfo": "乐事薯片春季限定新品零食樱花味大礼包, 吃乐事, 有乐事!",
+      "goodsImg": "https://img.alicdn.com/img/i2/51324050/O1CN0115HV8w1fmwZRAmcbf_!!0-saturn_solar.jpg_210x210.jpg",
+      "goodsWeight": "104g*3",
+      "goodsPrice": 18.9,
+      "unit": "包",
+      "amount": 1,
+      "checked": false,
+      "max": 20
+    }, {
+      "goodsId": 5,
+      "goodsInfo": "费列罗巧克力礼盒装送女友创意礼物费力罗",
+      "goodsImg": "https://img.alicdn.com/img/i3/44988994/O1CN01BEj2Ry2GJIhBDh754_!!0-saturn_solar.jpg_210x210.jpg",
+      "goodsWeight": "800g*1",
+      "goodsPrice": 108,
+      "unit": "包",
+      "amount": 1,
+      "checked": false,
+      "max": 20
+    }, {
+      "goodsId": 6,
+      "goodsInfo": "Akoko曲奇饼干正品好吃的休闲零食小吃礼盒",
+      "goodsImg": "https://img.alicdn.com/img/i4/125598270/O1CN018EW6k12AxhyRU1tdn_!!0-saturn_solar.jpg_210x210.jpg",
+      "goodsWeight": "560*1",
+      "goodsPrice": 188,
+      "unit": "盒",
+      "amount": 1,
+      "checked": false,
+      "max": 20
+    }
+  ]
+}

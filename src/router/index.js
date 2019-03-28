@@ -22,6 +22,8 @@ const ShopSearch = r => require.ensure([], () => r(require('@/views/shop/childre
 const ShopInfo = r => require.ensure([], () => r(require('@/views/shop/children/shopinfo.vue')), 'ShopInfo')
 // 商品详情
 const ShopGoods = r => require.ensure([], () => r(require('@/views/shop/children/goodsDetail.vue')), 'ShopGoods')
+// 选择店铺
+const ChooseStore = r => require.ensure([], () => r(require('@/views/shop/children/chooseStore.vue')), 'ChooseStore')
 
 
 // 购物车主界面
@@ -108,6 +110,11 @@ export default new Router({
               path: '/goodsDetail',
               name: 'goodsDetail',
               component: ShopGoods
+            }, {
+              // 选择店铺
+              path: '/chooseStore',
+              name: 'ChooseStore',
+              component: ChooseStore
             }
           ]
         }, {

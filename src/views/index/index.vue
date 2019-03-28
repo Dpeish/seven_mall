@@ -11,8 +11,8 @@
           </li>
         </ul>
         <Cutting>明星商品</Cutting>
-        <index-star-sell></index-star-sell>
-        <index-hot-sell></index-hot-sell>
+        <index-star-sell v-model="goodsList"></index-star-sell>
+        <index-hot-sell v-model="goodsList"></index-hot-sell>
       </div>
     </div>
   </div>
@@ -29,6 +29,8 @@ import indexHotSell from './components/hotSell';
 import banner1 from '@/assets/index/banner1.png';
 import banner2 from '@/assets/index/banner2.png';
 import banner3 from '@/assets/index/banner3.png';
+
+import goodsData from '@/json/goodsData'
 
 export default {
   name: 'index',
@@ -71,8 +73,12 @@ export default {
           title: '我的积分',
           link: '/mine/integral'
         }
-      ]
+      ],
+      goodsList: []
     }
+  },
+  created () {
+    this.goodsList = goodsData.goodsList;
   },
   methods: {
     _initScroll () {
@@ -87,11 +93,19 @@ export default {
     },
     enterPage (link) {
       this.$router.push(link);
+    },
+    getGoodsData () {
+      this.$axios.get('/static/json/goodsData.json').then((res) => {
+        if (res.data.returnCode === 0) {
+          this.goodsList = res.data.goodsList;
+        }
+      })
     }
   },
   mounted () {
     this.$nextTick(()=>{
       this._initScroll();
+      // this.getGoodsData();
     });
   }
 }

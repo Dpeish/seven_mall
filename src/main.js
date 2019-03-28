@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import axios from 'axios'
 import VueAwesomeSwiper from 'vue-awesome-swiper'; // swiper
 import 'swiper/dist/css/swiper.css'
 
@@ -39,6 +40,7 @@ FastClick.attach(document.body)
 Vue.config.productionTip = false
 
 Vue.prototype.$toast = Alert;
+Vue.prototype.$axios = axios;
 
 /* eslint-disable no-new */
 new Vue({

@@ -8,3 +8,13 @@ export function oneOf (value, valueList) {
   }
   return false;
 }
+
+
+export function findTarget (arr, attr, val) { 
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i][attr] == val) {
+      return true;
+    }
+  }
+  return false;
+};

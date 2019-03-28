@@ -4,9 +4,9 @@
       <li v-for="(item, index) in goodsList" :key="index">
         <img :src="item.goodsImg" alt="" class="goods-img">
         <div class="goods-content">
-          <p class="goods-info">{{ item.info }}</p>
-          <p class="goods-weight">{{ item.weight }}</p>
-          <p class="goods-price">{{ item.price | formatPrice }}</p>
+          <p class="goods-info">{{ item.goodsInfo }}</p>
+          <p class="goods-weight">{{ item.goodsWeight }}</p>
+          <p class="goods-price">{{ item.goodsPrice | formatPrice }}</p>
         </div>
         <div class="goods-add">
           <span class="iconfont icon-jiagou"></span>
@@ -20,49 +20,19 @@
 import goods from '@/assets/index/goods.jpg'
 export default {
   name: 'starsell',
+  props: {
+    value: {
+      type: Array
+    }
+  },
   data () {
     return {
       goods,
-      goodsList: [
-        {
-          id: '001',
-          goodsImg: goods,
-          info: '陶华碧老干妈香辣脆油辣椒210g瓶',
-          weight: '210g',
-          price: 7.5
-        }, {
-          id: '002',
-          goodsImg: goods,
-          info: '怡泉+C柠檬味汽水500ml*12饮料',
-          weight: '500ml',
-          price: 3.1
-        }, {
-          id: '003',
-          goodsImg: goods,
-          info: '椰树牌椰子汁250ml*24',
-          weight: '250ml',
-          price: 3.1
-        }, {
-          id: '004',
-          goodsImg: goods,
-          info: '陶华碧老干妈香辣脆油辣椒210g瓶',
-          weight: '210g',
-          price: 7.5
-        }, {
-          id: '005',
-          goodsImg: goods,
-          info: '怡泉+C柠檬味汽水500ml*12饮料',
-          weight: '500ml',
-          price: 3.1
-        }, {
-          id: '006',
-          goodsImg: goods,
-          info: '椰树牌椰子汁250ml*24',
-          weight: '250ml',
-          price: 3.1
-        }
-      ]
+      goodsList: []
     }
+  },
+  mounted() {
+    this.goodsList = this.value;
   }
 }
 </script>
@@ -85,7 +55,8 @@ export default {
     @include border-top(#f5f5f5);
     @include border-right(#f5f5f5);
     .goods-img {
-      width: 100%;
+      width: 1.05rem;
+      height: 1.05rem;
     }
     .goods-add {
       position: absolute;
@@ -103,7 +74,7 @@ export default {
     .goods-content {
       margin-top: .12rem;
       .goods-info {
-        height: .3rem;
+        height: .28rem;
         line-height: 1.2;
         margin-bottom: .1rem;
         overflow: hidden;
@@ -112,7 +83,8 @@ export default {
       }
       .goods-weight {
         overflow: hidden;
-        height: .15rem;
+        height: .18rem;
+        line-height: .21rem;
         font-size: .12rem;
         color: #8f8f94;
       }

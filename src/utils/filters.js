@@ -23,7 +23,8 @@ const formatBank = (val) => {
  */
 const formatPrice = (val) => {
   if (val) {
-    return `￥${val}`
+    val = Number(val)
+    return `￥${val.toFixed(2)}`
   }
 };
 

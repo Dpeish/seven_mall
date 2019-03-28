@@ -20,9 +20,9 @@
             <li class="product-item" v-for="(item, index) in goodsList" :key="index" @click="enterGoods">
               <img :src="item.goodsImg" alt="" class="goods-img">
               <div class="goods-content">
-                <p class="goods-info">{{ item.info }}</p>
-                <p class="goods-weight">规格：{{ item.weight }}</p>
-                <p class="goods-price">{{ item.price | formatPrice }}<span class="goods-unit"> /{{ item.unit }}</span></p>
+                <p class="goods-info">{{ item.goodsInfo }}</p>
+                <p class="goods-weight">规格：{{ item.goodsWeight }}</p>
+                <p class="goods-price">{{ item.goodsPrice | formatPrice }}<span class="goods-unit"> /{{ item.unit }}</span></p>
               </div>
               <div class="goods-add" @click.stop="addGoods(item)">
                 <span class="iconfont icon-jiagou"></span>
@@ -58,7 +58,7 @@ export default {
       extShow: false, // 展示筛选面板
       brandShow: false, // 品牌筛选
       searchKey: '', // 搜索内容
-      test: [], // 测试
+      storeId: 1, // 测试
       menuList: [
         {
           name: '全部商品',
@@ -123,59 +123,65 @@ export default {
       goods,
       goodsList: [
         {
-          id: '001',
-          goodsImg: goods,
-          info: '茅台镇洞藏老酒53度酱香型白酒低价批发坛装十五年原浆纯粮食酒',
-          weight: '210g',
-          price: 7.5,
-          unit: '件',
           goodsId: 1,
-          amount: 1
+          goodsInfo: '怡泉+C柠檬味汽水500ml饮料',
+          goodsImg: 'https://gw2.alicdn.com/bao/uploaded/i1/2628735924/TB2Z9LMmFXXXXXUXpXXXXXXXXXX_!!2628735924.png_210x210.jpg',
+          goodsWeight: '500ml*1',
+          goodsPrice: 6,
+          unit: '箱',
+          amount: 1,
+          checked: false,
+          max: 20
         }, {
-          id: '002',
-          goodsImg: goods,
-          info: '怡泉+C柠檬味汽水500ml*12饮料',
-          weight: '500ml',
-          price: 3.1,
-          unit: '件',
           goodsId: 2,
-          amount: 1
+          goodsInfo: '椰树牌椰子汁250ml',
+          goodsImg: 'https://gw1.alicdn.com/bao/uploaded/i2/1629644923/TB2HapSu9VmpuFjSZFFXXcZApXa_!!1629644923.jpg_210x210.jpg',
+          goodsWeight: '250ml*1',
+          goodsPrice: 3.5,
+          unit: '盒',
+          amount: 1,
+          checked: false,
+          max: 20
         }, {
-          id: '003',
-          goodsImg: goods,
-          info: '椰树牌椰子汁250ml*24',
-          weight: '250ml',
-          price: 3.1,
-          unit: '箱',
           goodsId: 3,
-          amount: 1
+          goodsInfo: '陶华碧老干妈香辣脆油辣椒210g瓶',
+          goodsImg: 'https://img.alicdn.com/img/i1/179490136/O1CN011CsKKo2gqC2EMMF_!!0-saturn_solar.jpg_210x210.jpg',
+          goodsWeight: '250ml*1',
+          goodsPrice: 3.5,
+          unit: '盒',
+          amount: 1,
+          checked: false,
+          max: 20
         }, {
-          id: '004',
-          goodsImg: goods,
-          info: '陶华碧老干妈香辣脆油辣椒210g瓶',
-          weight: '210g',
-          price: 7.5,
-          unit: '箱',
+          goodsId: 4,
+          goodsInfo: '乐事薯片春季限定新品零食樱花味大礼包',
+          goodsImg: 'https://img.alicdn.com/img/i2/51324050/O1CN0115HV8w1fmwZRAmcbf_!!0-saturn_solar.jpg_210x210.jpg',
+          goodsWeight: '104g*3',
+          goodsPrice: 18.9,
+          unit: '包',
+          amount: 1,
+          checked: false,
+          max: 20
+        }, {
           goodsId: 5,
-          amount: 1
+          goodsInfo: '费列罗巧克力礼盒装送女友创意礼物费力罗',
+          goodsImg: 'https://img.alicdn.com/img/i3/44988994/O1CN01BEj2Ry2GJIhBDh754_!!0-saturn_solar.jpg_210x210.jpg',
+          goodsWeight: '800g*1',
+          goodsPrice: 108,
+          unit: '包',
+          amount: 1,
+          checked: false,
+          max: 20
         }, {
-          id: '005',
-          goodsImg: goods,
-          info: '怡泉+C柠檬味汽水500ml*12饮料',
-          weight: '500ml',
-          price: 3.1,
-          unit: '件',
-          goodsId: 5,
-          amount: 1
-        }, {
-          id: '006',
-          goodsImg: goods,
-          info: '椰树牌椰子汁250ml*24',
-          weight: '250ml',
-          price: 3.1,
-          unit: '箱',
           goodsId: 6,
-          amount: 1
+          goodsInfo: 'Akoko曲奇饼干正品好吃的休闲零食小吃礼盒',
+          goodsImg: 'https://img.alicdn.com/img/i4/125598270/O1CN018EW6k12AxhyRU1tdn_!!0-saturn_solar.jpg_210x210.jpg',
+          goodsWeight: '560*1',
+          goodsPrice: 188,
+          unit: '盒子',
+          amount: 1,
+          checked: false,
+          max: 20
         }
       ]
     }
@@ -254,8 +260,17 @@ export default {
     addGoods (res) {
       // 添加商品 目前模拟添加至vuex
       // console.log(res)
+      // res.storeId = this.storeId;
+
+      this.$set(res, 'storeId', this.storeId);
       
-      this.$store.dispatch('addGoodsAsync', res)
+      let flag = this.$store.getters.hasGoods(res);
+      if (!flag) {
+        this.$store.dispatch('addGoodsAsync', res)
+      } else {
+        this.$store.dispatch('addNumAsync', res)      
+      }
+      console.log(flag)
     }
   },
   mounted() {

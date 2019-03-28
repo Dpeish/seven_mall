@@ -25,7 +25,7 @@
             <span class="order-status" v-show="false">去凑单</span>
           </div>
         </li>
-        <li class="item-cell sale" v-if="item.saleList.length > 0">
+        <li class="item-cell sale" v-if="item.saleList.length">
           <span>满减</span>
           <p class="store-name">下单满100元立减30元 <i class="iconfont icon-right-arrow"></i></p>
         </li>
@@ -145,7 +145,7 @@ export default {
     return {
       notImg,
       xscroll: '',
-      cartData: cartList, // 购车列表
+      cartData: [], // 购车列表
       allChecked: false, // 总计全选
       piece: 0, // 小计 /件
       kind: 0, // 小计 种类
@@ -332,33 +332,65 @@ export default {
     hanldeDelete () {
       let _self = this;
       // console.log(_self.cartData)
-      _self.cartData = _self.cartData.filter(item => {
-        return !item.checked;
-      })
+      // _self.cartData = _self.cartData.filter(item => {
+      //   // console.log(item)
+      //   // _self.$store.dispatch('delGoodsAsync', item);
+      //   // return !item.checked;
+      // })
       _self.cartData.forEach((item, index) => {
         item.goodsList.forEach((items, indexs) => {
           if (items.checked) {
-            item.goodsList.splice(indexs, 1)
+            // item.goodsList.splice(indexs, 1);
+            _self.$store.dispatch('delGoodsAsync', items.storeId);
           }
         })
       });
+      
       _self.handleTotal();
+      _self.getCartData();
     },
     hanldeEdit () {
       this.isEdit = !this.isEdit;
+    },
+    getCartData () {
+      let _self = this;
+      let arr = [];
+
+      for (let o in _self.$store.state.cart) {
+        let x = _self.$store.state.cart[o];
+        if (x.goodsList.length > 0) {
+          arr.push(x);
+        }
+      };
+      
+      _self.cartData = arr;
     }
   },
   mounted () {
     this.$nextTick(() => {
+      // this.cartData.forEach(item => {
+      //   this.$set(item, 'checked', false);
+      //   item.goodsList.forEach(items => {
+      //     this.$set(items, 'checked', false);
+      //   })
+      // });
+      this.getCartData();
+      
       this.cartData.forEach(item => {
-        this.$set(item, 'checked', false);
+        if (item.checked) {
+          this.handleTotal()
+        };
         item.goodsList.forEach(items => {
-          this.$set(items, 'checked', false);
+          if (items.checked) {
+            this.handleTotal()
+          }
         })
       });
 
-      // console.log(this.cartData)
+      
+
     });
+
   }
 }
 </script>
