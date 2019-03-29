@@ -1,0 +1,2 @@
+webpackJsonp([24],{"1CLz":function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n={render:function(){var e=this.$createElement,t=this._self._c||e;return t("div",{staticClass:"cart"},[t("router-view")],1)},staticRenderFns:[]};var a=r("C7Lr")({name:"cartParent"},n,!1,function(e){r("ZoFk")},"data-v-07faf4c1",null);t.default=a.exports},ZoFk:function(e,t){}});
+//# sourceMappingURL=24.62e0c4f8f9ba4c20a864.js.map

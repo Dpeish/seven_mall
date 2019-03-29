@@ -71,9 +71,23 @@ p {
     word-break:break-all;
 }
 
+textarea {
+  border: none;
+  outline: none;
+  resize:none
+}
+
 
 li {
   list-style: none;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar {
