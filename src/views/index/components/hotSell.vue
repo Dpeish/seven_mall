@@ -2,7 +2,7 @@
   <div class="hot">
     <div class="hot-title">热销商品</div>
     <ul class="content clearfix">
-      <li v-for="(item, index) in value" :key="index">
+      <li v-for="(item, index) in value" :key="index" @click="enterGoods">
         <img :src="item.goodsImg" alt="" class="goods-img">
         <div class="goods-content">
           <p class="goods-info">{{ item.goodsInfo }}</p>
@@ -30,6 +30,12 @@ export default {
     return {
       goods,
       goodsList: []
+    }
+  },
+  methods: {
+    enterGoods () {
+      // 进入商品详情
+      this.$router.push('/goodsDetail')
     }
   },
   mounted() {

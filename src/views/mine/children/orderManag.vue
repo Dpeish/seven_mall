@@ -24,7 +24,7 @@
         <ul class="item-view" v-for="(item, index) in orderAll[tabIndex]" :key="index">
           <li class="item-view-cell">
             <p class="store-name">{{ item.storeName }} <i class="iconfont icon-right-arrow"></i></p>
-            <span class="order-status">待付款</span>
+            <span class="order-status">{{ orderStatusList[item.orderStatus] }}</span>
           </li>
           <li class="item-view-cell">
             <div class="order-info text-hidden">
@@ -33,7 +33,13 @@
               <p>数量：{{ item.orderCount }}{{ item.unit }}</p>
               <p>金额：{{ item.orderAmount | formatPrice}}（未付款）</p>
             </div>
-            <div class="status-btn">去付款</div>
+            <div class="status-btn" :style="{'background': optionsColor[item.orderStatus]}" v-if="item.orderStatus < 4">{{ optionsList[item.orderStatus] }}</div>
+            <div class="status-badge" v-if="item.orderStatus == 4">
+              <i class="iconfont icon-shoucang1 star-left"></i>
+              <i class="iconfont icon-shoucang1 star-center"></i>
+              <i class="iconfont icon-shoucang1 star-right"></i>
+              <span>已完成</span>
+            </div>
           </li>
         </ul>
       </div>
@@ -121,6 +127,9 @@ export default {
           title: '已完成'
         }
       ],
+      orderStatusList: ['待付款', '待发货', '待收货', '待评价', '已完成'],
+      optionsList: ['去付款', '提醒发货', '确认收获', '去评价', ''],
+      optionsColor: ['#FFA037', '#fa4251', '#57B846', '#a0cfff', ''],
       tabIndex: 0,
       pulldownMsg: '下拉刷新',
       orderData: orderData,

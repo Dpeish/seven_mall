@@ -24,7 +24,7 @@
                 <p class="goods-weight">规格：{{ item.goodsWeight }}</p>
                 <p class="goods-price">{{ item.goodsPrice | formatPrice }}<span class="goods-unit"> /{{ item.unit }}</span></p>
               </div>
-              <div class="goods-add" @click.stop="addGoods(item)">
+              <div class="goods-add" @click.stop="addGoods($event, item)">
                 <span class="iconfont icon-jiagou"></span>
               </div>
             </li>
@@ -34,6 +34,7 @@
     </div>
     <sortpanel v-model="extShow" @input="closeSort" @chooseSort='chooseSort'></sortpanel>
     <brandfilter v-model="brandShow" @input="closeBrand" @chooseBrand='chooseBrand'></brandfilter>
+    <x-ball ref="ball"></x-ball>
   </div>
 </template>
 
@@ -257,12 +258,14 @@ export default {
       // 进入商品详情
       this.$router.push('/goodsDetail')
     },
-    addGoods (res) {
+    addGoods (e, res) {
       // 添加商品 目前模拟添加至vuex
       // console.log(res)
       // res.storeId = this.storeId;
 
-      this.$set(res, 'storeId', this.storeId);
+      this.$set(res, 'storeId', this.$store.state.shop.storeId);
+
+      this.$refs.ball.drop(e.target);
       
       let flag = this.$store.getters.hasGoods(res);
       if (!flag) {
@@ -270,7 +273,6 @@ export default {
       } else {
         this.$store.dispatch('addNumAsync', res)      
       }
-      console.log(flag)
     }
   },
   mounted() {

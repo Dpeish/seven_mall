@@ -1,7 +1,7 @@
 <template>
   <div class="star">
     <ul class="content clearfix">
-      <li v-for="(item, index) in goodsList" :key="index">
+      <li v-for="(item, index) in goodsList" :key="index" @click="enterGoods">
         <img :src="item.goodsImg" alt="" class="goods-img">
         <div class="goods-content">
           <p class="goods-info">{{ item.goodsInfo }}</p>
@@ -29,6 +29,12 @@ export default {
     return {
       goods,
       goodsList: []
+    }
+  },
+  methods: {
+    enterGoods () {
+      // 进入商品详情
+      this.$router.push('/goodsDetail')
     }
   },
   mounted() {

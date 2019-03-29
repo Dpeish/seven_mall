@@ -19,6 +19,14 @@
         </li>
       </ul>
     </div>
+    <div class="loadbg" v-show="load">
+      <div class="load-container">
+        <p class="icon-load">
+          <span class="iconfont icon-alert-loading"></span>
+        </p>
+        <p class="title">进入小店中...</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,6 +37,8 @@ export default {
   data() {
     return {
       notImg,
+      fromPage: '', // 来自哪个页面
+      load: false, 
       storeList: [
         {
           storeName: '青果便利店',
@@ -49,18 +59,25 @@ export default {
       ]
     }
   },
-  watch: {
-    $route(to, from) {
-      console.log(to)
-    }
-  },
   methods: {
     back () {
       this.$router.go(-1)
     },
     chooseStore(res) {
-      this.$store.dispatch('chooseStoreAsync', res)
+      this.load = true;
+      setTimeout(() => {
+        this.$store.dispatch('chooseStoreAsync', res);
+        if (this.fromPage == '' || this.fromPage == 'index') {
+          this.$router.push('/')
+        } else {
+          this.$router.push(this.fromPage)
+        }
+        this.load = false;
+      }, 1300)
     }
+  },
+  created() {
+    this.fromPage = this.$route.params.fromPage || '';
   }
 }
 </script>
@@ -124,6 +141,57 @@ export default {
         color: #8f8f94;
       }
     }
+  }
+}
+.loadbg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .3);
+  .load-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -30%;
+    margin-top: -1rem;
+    width: 60%;
+    height: 1.6rem;
+    background: #fff;
+    border-radius: .05rem;
+    .icon-load {
+      padding-top: .3rem;
+      margin-bottom: .2rem;
+      text-align: center;
+      span {
+        display: inline-block;
+        height: .7rem;
+        line-height: .75rem;
+        color: #409EFF;
+        font-size: .6rem;
+        &:before {
+          display: inline-block;
+          animation: 2s Rotation linear infinite;
+        }
+      }
+    }
+    .title {
+      text-align: center;
+      font-size: .14rem;
+      color: #8f8f94;
+    }
+  }
+}
+
+@keyframes Rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 </style>

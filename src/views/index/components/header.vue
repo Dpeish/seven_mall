@@ -16,12 +16,26 @@ export default {
   data() {
     return {
       storeName: '',
-      storeId: ''
+      storeId: '',
+      fromPage: '' // 获取当前的页面 
     }
   },
   methods: {
     enterStore () {
-      this.$router.push('/chooseStore')
+      this.$router.push({
+        name: 'ChooseStore',
+        params: {
+          fromPage: this.fromPage
+        }
+      })
+    }
+  },
+  mounted () {
+    if (!this.$route) {
+      console.log(1)
+      this.fromPage = '';
+    } else {
+      this.fromPage = this.$route.name;
     }
   }
 }

@@ -9,6 +9,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'; // swiper
 import 'swiper/dist/css/swiper.css'
 
 import Alert from '@/components/alert/alert.js';
+import '@/permission' // permission control
 
 import '@/utils/validate.js' // 表单验证
 

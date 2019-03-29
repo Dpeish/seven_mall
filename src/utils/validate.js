@@ -37,4 +37,11 @@ VeeValidate.Validator.extend('password',{
   validate: (value) => { return /^(?:0|[1-9][0-9]?|100)$/.test(value);}
 });
 
+// 手机号码
+VeeValidate.Validator.extend('mobile',{
+  getMessage: () => { return "请输入正确的手机号码" },
+  validate: (value) => { return /^1\d{10}$/.test(value);}
+});
+
+
 

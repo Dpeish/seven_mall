@@ -13,9 +13,9 @@
           id="user" 
           placeholder="帐号/手机号" 
           v-model="loginForm.userName"
-          v-validate="'required|email'" 
-          name="email"
-          data-vv-as="邮箱"
+          v-validate="'required|mobile'" 
+          name="mobile"
+          data-vv-as="账号/手机号"
         />
         <span 
           class="svg-close" 
@@ -24,7 +24,7 @@
         >
           <svg-icon icon-class="close" />
         </span>
-        <span class="tips" v-show="errors.first('email')">{{ errors.first('email') }}</span>
+        <span class="tips" v-show="errors.first('mobile')">{{ errors.first('mobile') }}</span>
       </div>
       <div class="input-area input-pwd">
         <label class="svg-container" for="password">
@@ -102,6 +102,7 @@ export default {
     login () {
       this.$validator.validate().then((result) => {
         if(result) {
+          localStorage.setItem("welcome", 89757);
           this.$router.replace('/')
         }
       })

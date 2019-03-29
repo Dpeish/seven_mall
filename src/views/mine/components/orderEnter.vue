@@ -6,10 +6,10 @@
         <i class="iconfont icon-right-arrow arrow"></i>
       </li>
       <li class="func-item">
-        <div v-for="(item, index) in orderFuncList" :key="index" @click="enterOrderTab(item.type)">
+        <div class="item-cell" v-for="(item, index) in orderFuncList" :key="index" @click="enterOrderTab(item.type)">
           <span class="iconfont" :class="item.iconName"></span>
           <p>{{ item.title }}</p>
-          <i>{{ item.number | badgeNum}}</i>
+          <x-badge v-if="item.number != ''" :title="item.number | badgeNum"></x-badge>
         </div>
       </li>
     </ul>
@@ -141,7 +141,8 @@ export default {
   }
   .func-item {
     display: flex;
-    div {
+    .item-cell {
+      position: relative;
       flex: 1;
       padding: .12rem 0;
       text-align: center;
@@ -158,6 +159,11 @@ export default {
       }
     }
   }
+}
+
+.order-enter /deep/ .badge {
+  top: .025rem;
+  right: .25rem;
 }
 </style>
 

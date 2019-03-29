@@ -10,10 +10,11 @@
         :class="isActiveName === item.activeName? 'active' : ''" 
         @click="tabAction(index)"
       >
-        <span class="svg-nav">
+        <span class="svg-nav" :class="'footer' + item.activeName" style="">
           <svg-icon :icon-class="isActiveName === item.activeName? item.svg_active : item.svg" />
         </span>
         <p>{{item.title}}</p>
+        <x-badge  v-if="item.badge != '' || item.badge > 0" :title="item.badge"></x-badge>
       </li>
     </ul>
   </div>
@@ -31,28 +32,33 @@ export default {
           svg: 'index-cat',
           svg_active: 'index-cat-open',
           activeName: 'index',
-          link: '/'
+          link: '/',
+          badge: ''
         }, {
           title: '商品',
           svg: 'index-shop',
           svg_active: 'index-shop-open',
           activeName: 'shop',
-          link: '/shop'
+          link: '/shop',
+          badge: ''
         }, {
           title: '购物车',
           svg: 'index-cart',
           svg_active: 'index-cart-open',
           activeName: 'cart',
-          link: '/cart'
+          link: '/cart',
+          badge: 0
         }, {
           title: '我的',
           svg: 'index-my',
           svg_active: 'index-my-open',
           activeName: 'mine',
-          link: '/mine'
+          link: '/mine',
+          badge: ''
         }
       ],
-      isActiveName: 'index'
+      isActiveName: 'index',
+      badgeNum: this.badgeShow
     }
   },
   watch: {
@@ -69,6 +75,20 @@ export default {
     navShow() {
       // 检查是否显示nav导航
       return this.$route.meta.navShow;
+    },
+    badgeShow() {
+      let _cart = this.$store.state.cart;
+      let _num = 0;
+      for (let o in _cart) {
+        let goods = _cart[o].goodsList.length;
+        _num+=goods
+      };
+      return _num;
+    }
+  },
+  watch: {
+    badgeShow(val) {
+      this.$set(this.navList[2], 'badge', val);
     }
   },
   methods: {
@@ -95,6 +115,8 @@ export default {
     //     })
     //   }
     // }
+    
+
   },
   updated () {
     this.isActiveName = this.$route.name;
@@ -116,6 +138,7 @@ export default {
   padding-top: .06rem;
   background: #fff;
   li {
+    position: relative;
     flex: 1;
     text-align: center;
     color: #9e9698;
@@ -162,6 +185,11 @@ export default {
 .vux-pop-in-leave-active {
   opacity: 0;
   transform: translate3d(-100%, 0, 0);
+}
+
+.footer /deep/ .badge {
+  top: -.1rem;
+  right: .2rem;
 }
 </style>
 

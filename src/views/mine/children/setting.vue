@@ -36,7 +36,7 @@ export default {
       this.$router.go(-1);
     },
     outSys () {
-      this.$router.push('/login');
+      this.$router.replace('/login');
     },
     gotest () {
       this.testNum++;
