@@ -36,6 +36,7 @@ export default {
       this.$router.go(-1);
     },
     outSys () {
+      localStorage.removeItem('welcome');
       this.$router.replace('/login');
     },
     gotest () {
